@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clash Royale Complaints — GameComplain</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #C9A227; --accent-hover: #a8881e; }
+
+    .game-banner {
+      background: linear-gradient(135deg, #1a0d00 0%, #2e1a00 45%, #0d0a1a 100%);
+      border: 1px solid rgba(201, 162, 39, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-banner::before {
+      content: '';
+      position: absolute;
+      top: -50px; left: -50px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,162,39,0.28) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .game-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(120,60,180,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .banner-title {
+      background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #C084FC 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-n { color: #ffd700; }
+
+    .banner-badge {
+      display: inline-block;
+      background: rgba(201, 162, 39, 0.15);
+      border: 1px solid rgba(201, 162, 39, 0.4);
+      color: #C9A227;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    .game-info-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .game-info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .game-info-card h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0 0 0.75rem;
+    }
+
+    .game-info-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .game-info-card li {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .game-info-card li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .news-item {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .news-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .news-date { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+    .news-title { font-size: 0.84rem; font-weight: 600; color: var(--text); }
+
+    @media (max-width: 640px) {
+      .game-info-section { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/" class="breadcrumb-link">Games</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Clash Royale</span>
+    </nav>
+
+    <div class="game-banner">
+      <div class="banner-badge">Real-Time Strategy</div>
+      <h1 class="banner-title">Clash Royale</h1>
+      <p class="banner-sub">Community complaints and balance feedback for Supercell's real-time card strategy game.</p>
+      <div class="banner-stats">
+        <div class="stat-block">
+          <div class="stat-n">890</div>
+          <div class="stat-l">Complaints</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">6.1k</div>
+          <div class="stat-l">Upvotes</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">1.8k</div>
+          <div class="stat-l">Replies</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">#6</div>
+          <div class="stat-l">Activity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-info-section">
+      <div class="game-info-card">
+        <h3>&#127381; Game Facts</h3>
+        <ul>
+          <li>Developed and published by Supercell; released globally in March 2016</li>
+          <li>Over 100 million downloads — one of the highest-grossing mobile games ever</li>
+          <li>Real-time 1v1 and 2v2 battles using a deck of 8 cards with elixir as a resource</li>
+          <li>Regular balance updates change the meta — a constant source of community debate</li>
+          <li>Path of Legends replaced the old league ladder system in 2022</li>
+          <li>King's Cup and other official tournaments run with real prize pools</li>
+        </ul>
+      </div>
+      <div class="game-info-card">
+        <h3>&#128240; Latest Updates</h3>
+        <div class="news-item">
+          <div class="news-date">Balance Changes — Frequent</div>
+          <div class="news-title">Supercell releases bi-monthly card balance updates; meta shifts drastically each cycle</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Evolution System — 2023</div>
+          <div class="news-title">Card Evolutions introduced — significantly boosts power of select cards and sparked pay-to-win debate</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Clan Wars 2</div>
+          <div class="news-title">Revamped clan wars system replaced original — community split on fairness for smaller clans</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Monetization</div>
+          <div class="news-title">Battle Pass, Pass Royale, and shop offers continue to generate player feedback about value</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Clash Royale Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+
+  </div>
+
+  <script>window.PAGE_CONFIG = { game: 'Clash Royale', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

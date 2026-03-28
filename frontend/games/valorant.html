@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valorant Complaints — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #FF4655; --accent-hover: #e03041; }
+
+    .game-banner {
+      background: linear-gradient(145deg, #0F1923 0%, #14080c 55%, #0F1923 100%);
+      border: 1px solid rgba(255, 70, 85, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Diagonal slash lines — Valorant's sharp angular identity */
+    .game-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -55deg,
+        transparent,
+        transparent 28px,
+        rgba(255,70,85,0.03) 28px,
+        rgba(255,70,85,0.03) 30px
+      );
+      pointer-events: none;
+    }
+
+    /* Red corner accent */
+    .game-banner::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 80px 80px 0;
+      border-color: transparent rgba(255,70,85,0.15) transparent transparent;
+      pointer-events: none;
+    }
+
+    .banner-title { color: #ECE8E1; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .stat-n { color: #FF4655; }
+
+    .banner-badge {
+      display: inline-block;
+      background: rgba(255,70,85,0.12);
+      border: 1px solid rgba(255,70,85,0.4);
+      color: #FF4655;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 2px;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/" class="breadcrumb-link">Games</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Valorant</span>
+    </nav>
+
+    <div class="game-banner">
+      <div class="banner-badge">Tactical FPS</div>
+      <h1 class="banner-title">Valorant</h1>
+      <p class="banner-sub">Agent ability bugs, rank system gripes, Vanguard anti-cheat issues, and server complaints.</p>
+      <div class="banner-stats">
+        <div class="stat-block">
+          <div class="stat-n">2.7k</div>
+          <div class="stat-l">Complaints</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">19.5k</div>
+          <div class="stat-l">Upvotes</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">4.9k</div>
+          <div class="stat-l">Replies</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">#3</div>
+          <div class="stat-l">Most Active</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-info-section">
+      <div class="game-info-card">
+        <h3 style="color:#ff4655">&#127381; Game Facts</h3>
+        <ul>
+          <li>Developed by Riot Games; launched June 2020 as a free-to-play tactical FPS</li>
+          <li>25+ agents each with unique abilities — ability combinations drive much of the meta debate</li>
+          <li>Vanguard anti-cheat runs at kernel level — one of the most discussed topics in the community</li>
+          <li>Competitive ranked system: Iron through Radiant, with strict MMR-based placement</li>
+          <li>VCT (Valorant Champions Tour) is the premier esports circuit with teams backed by Riot partnerships</li>
+          <li>Regular act updates every ~2 months bring new agents, maps, and balance patches</li>
+        </ul>
+      </div>
+      <div class="game-info-card">
+        <h3 style="color:#ff4655">&#128240; Latest Updates</h3>
+        <div class="news-item">
+          <div class="news-date">Episode / Act Updates — Ongoing</div>
+          <div class="news-title">New agents and map additions rotate into the competitive pool — community debates map-ban system</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Ranked Reset &amp; MMR</div>
+          <div class="news-title">Act resets lower ranks by a set amount — ongoing debate about MMR transparency and smurfing</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Vanguard Anti-Cheat</div>
+          <div class="news-title">Kernel-level anti-cheat continues to generate debate around privacy and system compatibility</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Agent Balance</div>
+          <div class="news-title">Clove, Iso, and Vyse frequently discussed in balance threads — Riot patches every act</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Valorant Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { game: 'Valorant', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fortnite Complaints — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #7B2FBE; --accent-hover: #6020a0; }
+
+    .game-banner {
+      background: linear-gradient(135deg, #0d0620 0%, #1a0845 45%, #0a1a40 100%);
+      border: 1px solid rgba(123, 47, 190, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Radial neon glow behind title */
+    .game-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,47,190,0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Cyan accent glow bottom-right */
+    .game-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,180,216,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .banner-title {
+      background: linear-gradient(90deg, #c084fc 0%, #00B4D8 60%, #FFE000 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-n { color: #c084fc; }
+
+    .banner-badge {
+      display: inline-block;
+      background: rgba(0,180,216,0.15);
+      border: 1px solid rgba(0,180,216,0.4);
+      color: #00B4D8;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/" class="breadcrumb-link">Games</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Fortnite</span>
+    </nav>
+
+    <div class="game-banner">
+      <div class="banner-badge">Battle Royale</div>
+      <h1 class="banner-title">Fortnite</h1>
+      <p class="banner-sub">Community complaints, bug reports, and balance gripes for Epic's battle royale.</p>
+      <div class="banner-stats">
+        <div class="stat-block">
+          <div class="stat-n">2.4k</div>
+          <div class="stat-l">Complaints</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">18.7k</div>
+          <div class="stat-l">Upvotes</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">4.1k</div>
+          <div class="stat-l">Replies</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">#1</div>
+          <div class="stat-l">Most Active</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game facts & news -->
+    <div class="game-info-section">
+      <div class="game-info-card">
+        <h3 style="color:#c084fc">&#127381; Game Facts</h3>
+        <ul>
+          <li>Developed by Epic Games; launched in 2017 as a PvE game before the Battle Royale mode exploded in popularity</li>
+          <li>Free-to-play on PC, consoles, and mobile — over 350 million registered accounts</li>
+          <li>Seasonal content model with a new Chapter/Season every few months</li>
+          <li>Building mechanics are a core differentiator — controversial with "no-build" players who prefer Zero Build mode</li>
+          <li>Regular crossover events with Marvel, Star Wars, NFL, and more</li>
+          <li>FNCS (Fortnite Champion Series) competitive circuit with multi-million dollar prize pools</li>
+        </ul>
+      </div>
+      <div class="game-info-card">
+        <h3 style="color:#c084fc">&#128240; Latest Updates</h3>
+        <div class="news-item">
+          <div class="news-date">Chapter 6 / Current Season</div>
+          <div class="news-title">New island, collaborations, and seasonal mechanics keeping the meta fresh in 2025</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">OG Mode Returns</div>
+          <div class="news-title">Classic "OG" Fortnite map rotates back periodically — one of the highest-viewed events in gaming</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Ranked Mode</div>
+          <div class="news-title">Competitive ranked mode active — community debates rank inflation and matchmaking quality</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Anti-Cheat</div>
+          <div class="news-title">Ongoing issues with aimbots in ranked — Epic's Easy Anti-Cheat frequently discussed in community</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Fortnite Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { game: 'Fortnite', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

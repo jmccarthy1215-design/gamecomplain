@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Counter-Strike 2 Complaints — GameComplain</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #E8A838; --accent-hover: #c98c28; }
+
+    .game-banner {
+      background: linear-gradient(135deg, #0e0b04 0%, #1e1500 45%, #0a0d12 100%);
+      border: 1px solid rgba(232, 168, 56, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,168,56,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .game-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100,120,180,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .banner-title {
+      background: linear-gradient(90deg, #F5C518 0%, #FFE680 50%, #E8A838 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-n { color: #f5c518; }
+
+    .banner-badge {
+      display: inline-block;
+      background: rgba(232, 168, 56, 0.12);
+      border: 1px solid rgba(232, 168, 56, 0.4);
+      color: #E8A838;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    .game-info-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .game-info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .game-info-card h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0 0 0.75rem;
+    }
+
+    .game-info-card ul {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .game-info-card li {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .game-info-card li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .news-item {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .news-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .news-date { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+    .news-title { font-size: 0.84rem; font-weight: 600; color: var(--text); }
+
+    @media (max-width: 640px) {
+      .game-info-section { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/" class="breadcrumb-link">Games</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Counter-Strike 2</span>
+    </nav>
+
+    <div class="game-banner">
+      <div class="banner-badge">Tactical FPS</div>
+      <h1 class="banner-title">Counter-Strike 2</h1>
+      <p class="banner-sub">Community complaints, bug reports, and ranked gripes for Valve's premier tactical shooter.</p>
+      <div class="banner-stats">
+        <div class="stat-block">
+          <div class="stat-n">3.2k</div>
+          <div class="stat-l">Complaints</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">24.5k</div>
+          <div class="stat-l">Upvotes</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">6.8k</div>
+          <div class="stat-l">Replies</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">#2</div>
+          <div class="stat-l">Most Active</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-info-section">
+      <div class="game-info-card">
+        <h3>&#127381; Game Facts</h3>
+        <ul>
+          <li>CS2 replaced CS:GO in September 2023 — Valve's biggest overhaul of the franchise in a decade</li>
+          <li>Consistently one of the top 3 most-played games on Steam with 1M+ peak concurrent players</li>
+          <li>Tactical 5v5 gameplay: one team plants a bomb, the other defuses — unchanged core since 2000</li>
+          <li>Major esports circuit: CS Majors with $1.25M+ prize pools backed by Valve</li>
+          <li>New Source 2 engine brought full 64-tick servers and sub-tick architecture</li>
+          <li>Premier mode added a rating system replacing the old Wingman-style ranks</li>
+        </ul>
+      </div>
+      <div class="game-info-card">
+        <h3>&#128240; Latest Updates</h3>
+        <div class="news-item">
+          <div class="news-date">Server &amp; Anti-Cheat — Ongoing</div>
+          <div class="news-title">VAC Live rollout underway — community awaits effective cheater detection in Premier mode</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Map Pool Rotation — 2024/25</div>
+          <div class="news-title">Inferno, Nuke, Mirage, Anubis and others cycling through Active Duty map pool updates</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Patch — Smoke Rework</div>
+          <div class="news-title">Volumetric 3D smokes are a signature CS2 feature — ongoing tweaks to grenade physics</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">Premier Rating Resets</div>
+          <div class="news-title">Seasonal rating resets introduced — generating debate about matchmaking fairness</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Counter-Strike 2 Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+
+  </div>
+
+  <script>window.PAGE_CONFIG = { game: 'Counter-Strike 2', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

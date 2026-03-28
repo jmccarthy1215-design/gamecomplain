@@ -1,11 +1,11 @@
 {
-  "name": "complaint-app",
+  "name": "complaint-app-backend",
   "version": "1.0.0",
-  "description": "Complaint submission and tracking web application",
-  "main": "backend/server.js",
+  "description": "Complaint app backend — Express/MongoDB API",
+  "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

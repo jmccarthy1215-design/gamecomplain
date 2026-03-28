@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All-Time Top Complaints — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .page-hero { background: linear-gradient(135deg, #0d0f1f 0%, #111827 100%); }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+    <div class="page-hero">
+      <span class="page-hero-icon">&#127942;</span>
+      <h1>All-Time Top Complaints</h1>
+      <p class="page-subtitle">The most upvoted complaints of all time across every game and category.</p>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">All Time</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { timeFilter: 'all', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

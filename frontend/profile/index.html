@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — GameComplain</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="profile-card" id="profile-card">
+      <p class="loading-text">Loading profile…</p>
+    </div>
+
+    <div class="profile-stats" id="profile-stats" style="display:none">
+      <div class="profile-stat-item">
+        <span class="profile-stat-n" id="stat-posts">—</span>
+        <span class="profile-stat-l">Posts</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/shared/navbar.js"></script>
+  <script src="/shared/auth.js"></script>
+  <script>
+  (function () {
+    var PERSON_SVG =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"' +
+          ' stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>' +
+      '</svg>';
+
+    function escHtml(s) {
+      var d = document.createElement('div');
+      d.appendChild(document.createTextNode(String(s)));
+      return d.innerHTML;
+    }
+
+    function fmtDate(iso) {
+      return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    }
+
+    (async function () {
+      var authRes = await fetch((window.API_URL || '') + '/api/auth/me');
+      if (!authRes.ok) { window.location.href = '/'; return; }
+      var user = await authRes.json();
+
+      var cardEl = document.getElementById('profile-card');
+      var roleBadge = '';
+      if (user.role === 'admin') {
+        roleBadge = '<span class="nav-admin-badge" style="font-size:.75rem;padding:.2rem .6rem">&#9679; Admin</span>';
+      } else if (user.isVerifiedDev) {
+        roleBadge = '<span class="nav-verified-badge" style="font-size:.75rem;padding:.2rem .6rem">&#10004; Verified Dev</span>';
+      }
+
+      cardEl.innerHTML =
+        '<div class="profile-avatar-wrap">' + PERSON_SVG + '</div>' +
+        '<div class="profile-info">' +
+          '<h1 class="profile-username">' + escHtml(user.username) + ' ' + roleBadge + '</h1>' +
+          (user.associatedGame
+            ? '<p class="profile-game">&#127918; ' + escHtml(user.associatedGame) + '</p>'
+            : '') +
+          '<p class="profile-role-label">' + escHtml(
+              user.role === 'admin' ? 'Administrator' :
+              user.isVerifiedDev    ? 'Verified Developer' : 'Community Member'
+            ) + '</p>' +
+        '</div>' +
+        '<div class="profile-links">' +
+          '<a href="/profile/posts.html" class="profile-link-btn">&#128221; My Posts</a>' +
+          '<a href="/profile/replies.html" class="profile-link-btn">&#128172; Replies</a>' +
+        '</div>';
+
+      // Post count
+      var statsEl = document.getElementById('profile-stats');
+      var countRes = await fetch((window.API_URL || '') + '/api/complaints?userId=' + user._id + '&sort=newest');
+      if (countRes.ok) {
+        var posts = await countRes.json();
+        document.getElementById('stat-posts').textContent = posts.length;
+        statsEl.style.display = 'flex';
+      }
+    }());
+  }());
+  </script>
+</body>
+</html>

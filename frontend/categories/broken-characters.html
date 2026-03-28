@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Broken Characters — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #ffa94d; --accent-hover: #fd7e14; }
+    .page-hero { background: linear-gradient(135deg, #1a0a00 0%, #110800 100%); border-color: rgba(255,169,77,.25); }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+    <div class="page-hero">
+      <span class="page-hero-icon">&#9876;&#65039;</span>
+      <h1>Broken Characters</h1>
+      <p class="page-subtitle">Overpowered abilities, unintended combos, and characters that break game balance.</p>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Broken Characters</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { category: 'Broken Characters', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

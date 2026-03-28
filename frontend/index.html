@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameComplain — Community Complaint Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Prevent flash of unstyled theme on load -->
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+</head>
+<body>
+
+  <!-- ── Navigation bar ────────────────────────────────────────
+       Dropdowns use CSS :hover on desktop and a JS .dropdown-open
+       class on mobile. The "Post Complaint" button calls the
+       existing openModal() function defined in app.js.
+  ─────────────────────────────────────────────────────────────── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+
+      <!-- Brand — margin-right:auto pushes everything else to the right -->
+      <a href="/" class="nav-brand">&#127918; GameComplain</a>
+
+      <!-- Menu (collapses to drawer on mobile) -->
+      <div class="nav-menu" id="nav-menu">
+
+        <!-- Games -->
+        <div class="nav-item has-dropdown">
+          <button class="nav-link">Games <span class="nav-arrow">&#9662;</span></button>
+          <ul class="nav-dropdown">
+            <li><a href="/games/fortnite.html" class="nav-dropdown-item">Fortnite</a></li>
+            <li><a href="/games/call-of-duty.html" class="nav-dropdown-item">Call of Duty</a></li>
+            <li><a href="/games/minecraft.html" class="nav-dropdown-item">Minecraft</a></li>
+            <li><a href="/games/valorant.html" class="nav-dropdown-item">Valorant</a></li>
+            <li><a href="/games/apex-legends.html" class="nav-dropdown-item">Apex Legends</a></li>
+            <li><a href="/games/league-of-legends.html" class="nav-dropdown-item">League of Legends</a></li>
+            <li><a href="/games/rocket-league.html" class="nav-dropdown-item">Rocket League</a></li>
+            <li><a href="/games/clash-royale.html" class="nav-dropdown-item">Clash Royale</a></li>
+            <li><a href="/games/counter-strike-2.html" class="nav-dropdown-item">Counter-Strike 2</a></li>
+            <li><a href="/games/rainbow-six-siege.html" class="nav-dropdown-item">Rainbow Six Siege</a></li>
+          </ul>
+        </div>
+
+        <!-- Top Complaints -->
+        <div class="nav-item has-dropdown">
+          <button class="nav-link">Top Complaints <span class="nav-arrow">&#9662;</span></button>
+          <ul class="nav-dropdown">
+            <li><a href="/top/this-week.html" class="nav-dropdown-item">This Week</a></li>
+            <li><a href="/top/this-month.html" class="nav-dropdown-item">This Month</a></li>
+            <li><a href="/top/all-time.html" class="nav-dropdown-item">All Time</a></li>
+          </ul>
+        </div>
+
+        <!-- Highest Rated -->
+        <div class="nav-item has-dropdown">
+          <button class="nav-link">Highest Rated <span class="nav-arrow">&#9662;</span></button>
+          <ul class="nav-dropdown align-right">
+            <li><a href="/rated/by-player.html" class="nav-dropdown-item">By Player Rating</a></li>
+            <li><a href="/rated/community-score.html" class="nav-dropdown-item">By Community Score</a></li>
+            <li><a href="/rated/trending.html" class="nav-dropdown-item">Trending Games</a></li>
+          </ul>
+        </div>
+
+        <!-- Clips -->
+        <a href="/clips.html" class="nav-link">&#127909; Clips</a>
+
+        <!-- Complain About Us -->
+        <a href="/complain-about-us.html" class="nav-link">&#128172; Complain About Us</a>
+
+        <!-- Post Complaint CTA -->
+        <button class="nav-post-btn" id="nav-post-btn">+ Post Complaint</button>
+
+      </div><!-- /nav-menu -->
+
+      <!-- Auth section — always visible, NOT inside the hamburger drawer -->
+      <div class="nav-auth" id="nav-auth">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">🌙</button>
+        <a href="#" class="nav-login-btn">Login / Sign Up</a>
+        <div class="nav-profile-wrap">
+          <button class="nav-avatar" id="nav-avatar" aria-label="Open profile menu" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </button>
+          <div class="nav-profile-dropdown" id="nav-profile-dropdown">
+            <div class="profile-dd-header">
+              <div class="profile-dd-avatar-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+              </div>
+              <div class="profile-dd-info">
+                <div class="profile-dd-name">Guest User</div>
+                <div class="profile-dd-sub">Sign in to save your posts</div>
+              </div>
+            </div>
+            <ul class="profile-menu-list">
+              <li><a href="/profile/posts.html" class="profile-menu-item">&#128221;&nbsp; My Posts</a></li>
+              <li><a href="/profile/replies.html" class="profile-menu-item">&#128172;&nbsp; Replies to My Posts</a></li>
+              <li><a href="/profile/index.html" class="profile-menu-item">&#128100;&nbsp; Profile</a></li>
+              <li><a href="/profile/settings.html" class="profile-menu-item">&#9881;&#65039;&nbsp; Settings</a></li>
+              <li class="profile-menu-divider"></li>
+              <li><a href="#" class="profile-menu-item profile-logout">&#128682;&nbsp; Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hamburger — visible only on mobile, sits after auth so auth shows left of it -->
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div><!-- /nav-inner -->
+  </nav>
+
+  <!-- ── Modal overlay ──────────────────────────────────────────
+       Sits outside .container so it can cover the full viewport.
+       JS toggles the "hidden" class to show/hide it.
+  ─────────────────────────────────────────────────────────────── -->
+  <div id="modal-overlay" class="modal-overlay hidden"
+       role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+
+      <div class="modal-header">
+        <h2 id="modal-title">Post a Complaint</h2>
+        <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="complaint-form" novalidate>
+
+        <div class="field-group">
+          <label for="c-title">Title</label>
+          <input
+            type="text"
+            id="c-title"
+            name="title"
+            placeholder="Short summary of the issue"
+            maxlength="100"
+            required
+          />
+          <span class="field-hint">Max 100 characters</span>
+        </div>
+
+        <div class="field-group">
+          <label for="c-description">Description</label>
+          <textarea
+            id="c-description"
+            name="description"
+            placeholder="Describe the issue in detail..."
+            maxlength="1000"
+            rows="5"
+            required
+          ></textarea>
+          <span class="field-hint">Max 1000 characters</span>
+        </div>
+
+        <div class="field-group">
+          <label for="c-game">Game</label>
+          <select id="c-game" name="game">
+            <option value="" selected>General / Not game-specific</option>
+            <option value="Fortnite">Fortnite</option>
+            <option value="Call of Duty">Call of Duty</option>
+            <option value="Minecraft">Minecraft</option>
+            <option value="Valorant">Valorant</option>
+            <option value="Apex Legends">Apex Legends</option>
+            <option value="League of Legends">League of Legends</option>
+            <option value="Rocket League">Rocket League</option>
+            <option value="Clash Royale">Clash Royale</option>
+            <option value="Counter-Strike 2">Counter-Strike 2</option>
+            <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="c-category">Category</label>
+          <select id="c-category" name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Game Bugs">Game Bugs</option>
+            <option value="Broken Characters">Broken Characters</option>
+            <option value="Stupid Mechanics">Stupid Mechanics</option>
+            <option value="Matchmaking Issues">Matchmaking Issues</option>
+            <option value="Performance Issues">Performance Issues</option>
+            <option value="Cheating / Exploits">Cheating / Exploits</option>
+            <option value="Updates / Patches">Updates / Patches</option>
+            <option value="Website Feedback">Website Feedback</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <p id="form-message" class="form-message" aria-live="polite"></p>
+
+        <button type="submit" id="submit-btn">Post Complaint</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Three-column page layout ─────────────────────────────── -->
+  <div class="page-layout">
+
+    <!-- LEFT SIDEBAR — Navigation -->
+    <aside class="left-sidebar" id="left-sidebar">
+
+      <button class="lsb-post-cta" id="lsb-post-btn">+ Post Complaint</button>
+
+      <nav class="lsb-nav" aria-label="Quick navigation">
+        <span class="lsb-section-label">Discover</span>
+        <a href="/" class="lsb-link lsb-link-active"><span class="lsb-icon">&#127968;</span> All Posts</a>
+        <a href="/top/this-week.html" class="lsb-link"><span class="lsb-icon">&#128293;</span> This Week</a>
+        <a href="/top/this-month.html" class="lsb-link"><span class="lsb-icon">&#128200;</span> This Month</a>
+        <a href="/top/all-time.html" class="lsb-link"><span class="lsb-icon">&#11088;</span> All Time</a>
+        <a href="/clips.html" class="lsb-link"><span class="lsb-icon">&#127909;</span> Clips</a>
+        <a href="/complain-about-us.html" class="lsb-link"><span class="lsb-icon">&#128172;</span> Complain About Us</a>
+      </nav>
+
+      <div class="lsb-section">
+        <span class="lsb-section-label">Games</span>
+        <a href="/games/fortnite.html" class="lsb-link"><span class="lsb-dot" style="background:#c084fc"></span> Fortnite</a>
+        <a href="/games/call-of-duty.html" class="lsb-link"><span class="lsb-dot" style="background:#78c5f7"></span> Call of Duty</a>
+        <a href="/games/minecraft.html" class="lsb-link"><span class="lsb-dot" style="background:#69db7c"></span> Minecraft</a>
+        <a href="/games/valorant.html" class="lsb-link"><span class="lsb-dot" style="background:#FF4655"></span> Valorant</a>
+        <a href="/games/apex-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#e85d04"></span> Apex Legends</a>
+        <a href="/games/league-of-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#c89b3c"></span> League of Legends</a>
+        <a href="/games/rocket-league.html" class="lsb-link"><span class="lsb-dot" style="background:#4dabf7"></span> Rocket League</a>
+        <a href="/games/clash-royale.html" class="lsb-link"><span class="lsb-dot" style="background:#cc5de8"></span> Clash Royale</a>
+        <a href="/games/counter-strike-2.html" class="lsb-link"><span class="lsb-dot" style="background:#e8b339"></span> Counter-Strike 2</a>
+        <a href="/games/rainbow-six-siege.html" class="lsb-link"><span class="lsb-dot" style="background:#74c0fc"></span> Rainbow Six Siege</a>
+      </div>
+
+      <div class="lsb-section" id="lsb-categories">
+        <span class="lsb-section-label">Categories</span>
+        <button class="lsb-cat-btn lsb-cat-active" data-category="">All</button>
+        <button class="lsb-cat-btn" data-category="Game Bugs">Game Bugs</button>
+        <button class="lsb-cat-btn" data-category="Broken Characters">Broken Characters</button>
+        <button class="lsb-cat-btn" data-category="Stupid Mechanics">Stupid Mechanics</button>
+        <button class="lsb-cat-btn" data-category="Matchmaking Issues">Matchmaking Issues</button>
+        <button class="lsb-cat-btn" data-category="Performance Issues">Performance Issues</button>
+        <button class="lsb-cat-btn" data-category="Cheating / Exploits">Cheating / Exploits</button>
+        <button class="lsb-cat-btn" data-category="Updates / Patches">Updates / Patches</button>
+        <button class="lsb-cat-btn" data-category="Other">Other</button>
+      </div>
+
+    </aside><!-- /left-sidebar -->
+
+    <!-- CENTER — Main forum feed -->
+    <main class="page-main">
+
+      <header>
+        <div class="feed-header">
+          <div class="feed-header-text">
+            <h1>Complaint Board</h1>
+            <p class="subtitle">What's everyone mad about today</p>
+          </div>
+          <button class="btn-post" id="open-modal-btn">+ Post</button>
+        </div>
+      </header>
+
+      <!-- Feed — populated dynamically by app.js -->
+      <section class="feed-section">
+        <div class="feed-bar">
+          <span class="feed-label">Latest</span>
+          <span class="feed-sort" id="feed-sort-label">&#9650; Top Voted</span>
+        </div>
+
+        <!-- Filter bar (compact pill style) -->
+        <div class="filter-panel" id="filter-panel">
+          <span class="filter-label">Filter:</span>
+          <select id="filter-game" class="filter-select" aria-label="Filter by game">
+            <option value="">All Games</option>
+            <option value="Fortnite">Fortnite</option>
+            <option value="Call of Duty">Call of Duty</option>
+            <option value="Minecraft">Minecraft</option>
+            <option value="Valorant">Valorant</option>
+            <option value="Apex Legends">Apex Legends</option>
+            <option value="League of Legends">League of Legends</option>
+            <option value="Rocket League">Rocket League</option>
+            <option value="Clash Royale">Clash Royale</option>
+            <option value="Counter-Strike 2">Counter-Strike 2</option>
+            <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="filter-category" class="filter-select" aria-label="Filter by category">
+            <option value="">All Categories</option>
+            <option value="Game Bugs">Game Bugs</option>
+            <option value="Broken Characters">Broken Characters</option>
+            <option value="Stupid Mechanics">Stupid Mechanics</option>
+            <option value="Matchmaking Issues">Matchmaking Issues</option>
+            <option value="Performance Issues">Performance Issues</option>
+            <option value="Cheating / Exploits">Cheating / Exploits</option>
+            <option value="Updates / Patches">Updates / Patches</option>
+            <option value="Website Feedback">Website Feedback</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="filter-range" class="filter-select" aria-label="Filter by date range">
+            <option value="all">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+          </select>
+          <select id="filter-sort" class="filter-select" aria-label="Sort order">
+            <option value="votes">Top Voted</option>
+            <option value="newest">Newest First</option>
+          </select>
+          <label class="filter-devpost-label" for="filter-devpost">
+            <input type="checkbox" id="filter-devpost" class="filter-devpost-check">
+            <span>&#128737; Devs</span>
+          </label>
+        </div>
+
+        <div id="complaints-list">
+          <p class="loading-text">Loading complaints…</p>
+        </div>
+      </section>
+
+    </main><!-- /page-main -->
+
+    <!-- RIGHT — Dashboard widgets -->
+    <aside class="page-sidebar">
+      <div class="sidebar-widgets">
+
+        <!-- 1. Patch Notes -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">
+            <span class="sidebar-widget-icon">&#128240;</span>
+            <h2 class="sidebar-widget-title">Patch Notes</h2>
+          </div>
+          <div class="patch-slider" id="patch-slider" aria-label="Rotating patch notes">
+            <div class="patch-track" id="patch-track"></div>
+            <div class="patch-nav">
+              <button class="patch-nav-btn" id="patch-prev" aria-label="Previous patch note">&#8249;</button>
+              <div class="patch-dots" id="patch-dots"></div>
+              <button class="patch-nav-btn" id="patch-next" aria-label="Next patch note">&#8250;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Esports News -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">
+            <span class="sidebar-widget-icon">&#127942;</span>
+            <h2 class="sidebar-widget-title">Esports News</h2>
+          </div>
+          <div class="patch-slider" id="esports-slider" aria-label="Rotating esports news">
+            <div class="patch-track" id="esports-track"></div>
+            <div class="patch-nav">
+              <button class="patch-nav-btn" id="esports-prev" aria-label="Previous news item">&#8249;</button>
+              <div class="patch-dots" id="esports-dots"></div>
+              <button class="patch-nav-btn" id="esports-next" aria-label="Next news item">&#8250;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Top Rated -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">
+            <span class="sidebar-widget-icon">&#9733;</span>
+            <h2 class="sidebar-widget-title">Top Rated</h2>
+          </div>
+          <div class="patch-slider" id="top-slider" aria-label="Rotating top complaints">
+            <div class="patch-track" id="top-track">
+              <div class="patch-card active">
+                <p class="patch-card-summary" style="padding:.35rem 0">Loading top complaints&#8230;</p>
+              </div>
+            </div>
+            <div class="patch-nav">
+              <button class="patch-nav-btn" id="top-prev" aria-label="Previous complaint">&#8249;</button>
+              <div class="patch-dots" id="top-dots"></div>
+              <button class="patch-nav-btn" id="top-next" aria-label="Next complaint">&#8250;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Hottest Game -->
+        <div class="sidebar-widget sidebar-widget-hottest">
+          <div class="sidebar-widget-header">
+            <span class="sidebar-widget-icon">&#128293;</span>
+            <h2 class="sidebar-widget-title">Hottest Game</h2>
+          </div>
+          <div id="hottest-game-content" class="hottest-game-body"></div>
+        </div>
+
+      </div><!-- /sidebar-widgets -->
+    </aside><!-- /page-sidebar -->
+
+  </div><!-- /page-layout -->
+
+  <script src="/config.js"></script>
+  <script src="/shared/auth.js"></script>
+  <script src="app.js"></script>
+  <script src="patch-notes.js"></script>
+  <script src="sidebar.js"></script>
+</body>
+</html>

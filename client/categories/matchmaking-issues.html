@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matchmaking Issues — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #69db7c; --accent-hover: #40c057; }
+    .page-hero { background: linear-gradient(135deg, #001a05 0%, #001005 100%); border-color: rgba(105,219,124,.25); }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+    <div class="page-hero">
+      <span class="page-hero-icon">&#128260;</span>
+      <h1>Matchmaking Issues</h1>
+      <p class="page-subtitle">Unfair rank pairings, long queue times, SBMM complaints, and lobby problems.</p>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Matchmaking Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { category: 'Matchmaking Issues', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

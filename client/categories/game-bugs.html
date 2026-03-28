@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Bugs — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #ff8787; --accent-hover: #fa5252; }
+    .page-hero { background: linear-gradient(135deg, #1a0505 0%, #100505 100%); border-color: rgba(255,135,135,.25); }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+    <div class="page-hero">
+      <span class="page-hero-icon">&#128027;</span>
+      <h1>Game Bugs</h1>
+      <p class="page-subtitle">Glitches, crashes, and unexpected behaviour across all games. Help developers spot recurring issues.</p>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Game Bugs</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { category: 'Game Bugs', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

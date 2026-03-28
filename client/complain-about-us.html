@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complain About Us — GameComplain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+  <style>
+    .cau-hero {
+      background: linear-gradient(135deg, #0d1017 0%, #121824 50%, #0d1017 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cau-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cau-hero h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .cau-hero p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+
+    .cau-post-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      padding: 0.65rem 1.4rem;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+
+    .cau-post-btn:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 14px rgba(108,99,255,0.35);
+    }
+
+    /* Post modal overrides for this page */
+    .cau-modal-hint {
+      background: rgba(108,99,255,0.08);
+      border: 1px solid rgba(108,99,255,0.25);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Complain About Us</span>
+    </nav>
+
+    <div class="cau-hero">
+      <h1>&#128172; Complain About Us</h1>
+      <p>We're not perfect. Got feedback about GameComplain itself — bugs on the site, missing features, UI issues, or anything you'd change? Tell us here. We actually read these.</p>
+      <button class="cau-post-btn" id="cau-open-modal">+ Post Website Feedback</button>
+    </div>
+
+    <!-- Complaint modal (same as homepage) -->
+    <div id="cau-modal-overlay" class="modal-overlay hidden"
+         role="dialog" aria-modal="true" aria-labelledby="cau-modal-title">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="cau-modal-title">Post Website Feedback</h2>
+          <button class="modal-close" id="cau-modal-close" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="cau-modal-hint">
+          &#128161; This form posts to the <strong>Website Feedback</strong> category. Describe the issue or feature request clearly — the more detail, the better.
+        </div>
+        <form id="cau-form" novalidate>
+          <div class="field-group">
+            <label for="cau-title">Title</label>
+            <input type="text" id="cau-title" placeholder="Short summary of your feedback" maxlength="100" required />
+            <span class="field-hint">Max 100 characters</span>
+          </div>
+          <div class="field-group">
+            <label for="cau-desc">Description</label>
+            <textarea id="cau-desc" placeholder="Describe the issue or feature request in detail..." maxlength="1000" rows="5" required></textarea>
+            <span class="field-hint">Max 1000 characters</span>
+          </div>
+          <p id="cau-form-msg" class="form-message" aria-live="polite"></p>
+          <button type="submit" id="cau-submit">Post Feedback</button>
+        </form>
+      </div>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Website Feedback</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading feedback…</p></div>
+    </section>
+
+  </div>
+
+  <script>
+    // Modal for this page
+    var cauOverlay = document.getElementById('cau-modal-overlay');
+    var cauOpenBtn = document.getElementById('cau-open-modal');
+    var cauCloseBtn = document.getElementById('cau-modal-close');
+    var cauForm = document.getElementById('cau-form');
+    var cauMsg = document.getElementById('cau-form-msg');
+
+    function openCauModal() {
+      cauOverlay.classList.remove('hidden');
+      document.body.classList.add('modal-open');
+      document.getElementById('cau-title').focus();
+    }
+
+    function closeCauModal() {
+      cauOverlay.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      cauForm.reset();
+      cauMsg.textContent = '';
+      cauMsg.className = 'form-message';
+    }
+
+    cauOpenBtn.addEventListener('click', openCauModal);
+    cauCloseBtn.addEventListener('click', closeCauModal);
+    cauOverlay.addEventListener('click', function(e) { if (e.target === cauOverlay) closeCauModal(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !cauOverlay.classList.contains('hidden')) closeCauModal();
+    });
+
+    cauForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var title = document.getElementById('cau-title').value.trim();
+      var desc  = document.getElementById('cau-desc').value.trim();
+
+      cauMsg.textContent = '';
+      cauMsg.className = 'form-message';
+
+      if (!title || !desc) {
+        cauMsg.textContent = 'Please fill in all fields.';
+        cauMsg.className = 'form-message error';
+        return;
+      }
+
+      var submitBtn = document.getElementById('cau-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Posting…';
+
+      fetch('/api/complaints', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: title, description: desc, category: 'Website Feedback', game: '' })
+      })
+      .then(function(res) { return res.json().then(function(d) { return { ok: res.ok, data: d }; }); })
+      .then(function(result) {
+        if (!result.ok) throw new Error(result.data.error || 'Failed to post.');
+        cauMsg.textContent = 'Feedback posted! Thank you.';
+        cauMsg.className = 'form-message success';
+        cauForm.reset();
+        // Reload feed after short delay
+        setTimeout(function() { closeCauModal(); location.reload(); }, 1200);
+      })
+      .catch(function(err) {
+        cauMsg.textContent = err.message || 'Something went wrong.';
+        cauMsg.className = 'form-message error';
+      })
+      .finally(function() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Post Feedback';
+      });
+    });
+  </script>
+
+  <script>window.PAGE_CONFIG = { category: 'Website Feedback', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

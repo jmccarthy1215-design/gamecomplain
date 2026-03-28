@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Posts — GameComplain</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="page-hero" style="background:linear-gradient(135deg,rgba(108,99,255,.08),transparent)">
+      <span class="page-hero-icon">&#128221;</span>
+      <h1>My Posts</h1>
+      <p class="page-subtitle">Complaints you've submitted to the board</p>
+    </div>
+
+    <div id="complaints-list">
+      <p class="loading-text">Loading your posts…</p>
+    </div>
+
+  </div>
+
+  <script src="/shared/navbar.js"></script>
+  <script src="/shared/auth.js"></script>
+  <script>
+  (function () {
+    var API = '/api/complaints';
+    var TRUNCATE = 250;
+    var TOP_THRESHOLD = 50;
+
+    var CATEGORY_COLORS = {
+      'Game Bugs':           { bg:'rgba(255,107,107,.15)', border:'rgba(255,107,107,.4)', color:'#ff8787' },
+      'Broken Characters':   { bg:'rgba(255,169,77,.15)',  border:'rgba(255,169,77,.4)',  color:'#ffa94d' },
+      'Stupid Mechanics':    { bg:'rgba(255,212,59,.15)',  border:'rgba(255,212,59,.4)',  color:'#ffd43b' },
+      'Matchmaking Issues':  { bg:'rgba(105,219,124,.15)', border:'rgba(105,219,124,.4)', color:'#69db7c' },
+      'Performance Issues':  { bg:'rgba(77,171,247,.15)',  border:'rgba(77,171,247,.4)',  color:'#74c0fc' },
+      'Cheating / Exploits': { bg:'rgba(247,131,172,.15)', border:'rgba(247,131,172,.4)', color:'#f783ac' },
+      'Updates / Patches':   { bg:'rgba(169,227,75,.15)',  border:'rgba(169,227,75,.4)',  color:'#a9e34b' },
+      'Other':               { bg:'rgba(123,127,158,.15)', border:'rgba(123,127,158,.4)', color:'#a0a3bb' }
+    };
+
+    var votedIds = new Set(JSON.parse(localStorage.getItem('votedComplaints') || '[]'));
+
+    function markVoted(id) {
+      votedIds.add(id);
+      localStorage.setItem('votedComplaints', JSON.stringify(Array.from(votedIds)));
+    }
+
+    function escHtml(s) {
+      var d = document.createElement('div');
+      d.appendChild(document.createTextNode(String(s)));
+      return d.innerHTML;
+    }
+
+    function fmtDate(iso) {
+      return new Date(iso).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+    }
+
+    function applyCategory(el, cat) {
+      var c = CATEGORY_COLORS[cat] || CATEGORY_COLORS['Other'];
+      el.style.background = c.bg;
+      el.style.border     = '1px solid ' + c.border;
+      el.style.color      = c.color;
+    }
+
+    function renderCard(complaint) {
+      var id       = complaint._id;
+      var hasVoted = votedIds.has(id);
+      var desc     = complaint.description;
+      var isLong   = desc.length > TRUNCATE;
+      var shortDesc = isLong ? desc.slice(0, TRUNCATE) + '…' : desc;
+      var isTop    = complaint.votes >= TOP_THRESHOLD;
+
+      var card = document.createElement('article');
+      card.className = 'complaint-card'
+        + (isTop ? ' top-complaint' : '')
+        + (complaint.isDevPost ? ' dev-post' : '');
+      card.dataset.id = id;
+
+      var badgesHtml = '';
+      if (complaint.isDevPost) badgesHtml += '<span class="dev-badge">&#128737; ' + escHtml(complaint.developerTag || 'Dev Response') + '</span>';
+      if (isTop)               badgesHtml += '<span class="top-badge">&#9733; Top</span>';
+      if (complaint.game)      badgesHtml += '<span class="card-game-badge"></span>';
+      badgesHtml += '<span class="card-category"></span>';
+
+      card.innerHTML =
+        '<div class="card-header">' +
+          '<span class="card-title">' + escHtml(complaint.title) + '</span>' +
+          '<div class="card-badges">' + badgesHtml + '</div>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<p class="card-description"><span class="desc-text"></span>' +
+            (isLong ? '<button class="read-more-btn">Read more</button>' : '') +
+          '</p>' +
+        '</div>' +
+        '<div class="card-actions">' +
+          '<button class="upvote-btn ' + (hasVoted ? 'voted' : '') + '"' +
+                  (hasVoted ? ' disabled' : '') + ' aria-label="Upvote">' +
+            '<span class="upvote-icon">&#9650;</span>' +
+            '<span class="vote-count">' + complaint.votes + '</span>' +
+          '</button>' +
+          '<span class="spacer"></span>' +
+          '<span class="card-author">&#128100; ' + escHtml(complaint.username || 'Anonymous') + '</span>' +
+          '<span class="card-date">' + fmtDate(complaint.createdAt) + '</span>' +
+        '</div>';
+
+      card.querySelector('.desc-text').textContent = shortDesc;
+      card.querySelector('.card-category').textContent = complaint.category;
+      applyCategory(card.querySelector('.card-category'), complaint.category);
+      var gameBadge = card.querySelector('.card-game-badge');
+      if (gameBadge) gameBadge.textContent = complaint.game;
+
+      // Read more
+      var rmBtn = card.querySelector('.read-more-btn');
+      if (rmBtn) {
+        var expanded = false;
+        rmBtn.addEventListener('click', function () {
+          expanded = !expanded;
+          card.querySelector('.desc-text').textContent = expanded ? desc : shortDesc;
+          rmBtn.textContent = expanded ? 'Show less' : 'Read more';
+        });
+      }
+
+      // Upvote
+      var upBtn   = card.querySelector('.upvote-btn');
+      var countEl = card.querySelector('.vote-count');
+      upBtn.addEventListener('click', async function () {
+        if (votedIds.has(id)) return;
+        var prev = parseInt(countEl.textContent, 10);
+        countEl.textContent = prev + 1;
+        upBtn.disabled = true;
+        upBtn.classList.add('voted');
+        markVoted(id);
+        try {
+          var r = await fetch(API + '/' + id + '/upvote', { method: 'PATCH' });
+          if (!r.ok) throw new Error('failed');
+          countEl.textContent = (await r.json()).votes;
+        } catch (_) {
+          countEl.textContent = prev;
+          upBtn.disabled = false;
+          upBtn.classList.remove('voted');
+          votedIds.delete(id);
+          localStorage.setItem('votedComplaints', JSON.stringify(Array.from(votedIds)));
+        }
+      });
+
+      return card;
+    }
+
+    (async function () {
+      var authRes = await fetch('/api/auth/me');
+      if (!authRes.ok) { window.location.href = '/'; return; }
+      var user = await authRes.json();
+
+      var listEl = document.getElementById('complaints-list');
+
+      try {
+        var res = await fetch(API + '?userId=' + user._id + '&sort=newest');
+        if (!res.ok) throw new Error('fetch failed');
+        var complaints = await res.json();
+
+        listEl.innerHTML = '';
+        if (complaints.length === 0) {
+          listEl.innerHTML =
+            '<p class="empty-text">You haven\'t posted anything yet.<br>' +
+            '<a href="/" style="color:var(--accent);font-weight:600">&#8592; Post your first complaint</a></p>';
+          return;
+        }
+        complaints.forEach(function (c) { listEl.appendChild(renderCard(c)); });
+      } catch (e) {
+        listEl.innerHTML = '<p class="empty-text">Could not load posts. Please refresh.</p>';
+      }
+    }());
+  }());
+  </script>
+</body>
+</html>

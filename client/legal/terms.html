@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — GameComplain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+  <style>
+    .legal-page {
+      max-width: 780px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+    .legal-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      margin-bottom: 1.75rem;
+    }
+    .legal-back:hover { text-decoration: underline; }
+    .legal-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      line-height: 1.75;
+      color: var(--text);
+    }
+    .legal-content h1 { font-size: 1.6rem; margin: 0 0 0.3rem; color: var(--text); }
+    .legal-content h2 { font-size: 1.05rem; font-weight: 700; margin: 1.5rem 0 0.5rem; color: var(--text); }
+    .legal-content p  { margin: 0.5rem 0; font-size: 0.93rem; color: var(--text-muted); }
+    .legal-content ul { margin: 0.4rem 0 0.4rem 1.5rem; padding: 0; }
+    .legal-content li { font-size: 0.93rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .legal-content hr { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+    .legal-content strong { color: var(--text); font-weight: 700; }
+    .legal-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+    .legal-loading { color: var(--text-muted); font-size: 0.9rem; }
+    .legal-error   { color: var(--error); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="legal-page">
+    <a href="javascript:history.back()" class="legal-back">&#8592; Back</a>
+    <div class="legal-content" id="legal-content">
+      <p class="legal-loading">Loading Terms of Service&#8230;</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Minimal markdown-to-HTML renderer for the .txt files
+      function renderDoc(raw) {
+        var lines  = raw.split('\n');
+        var html   = '';
+        var inList = false;
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+
+          // Horizontal rule
+          if (/^---+$/.test(line.trim())) {
+            if (inList) { html += '</ul>'; inList = false; }
+            html += '<hr>';
+            continue;
+          }
+
+          // H2 heading
+          if (/^## /.test(line)) {
+            if (inList) { html += '</ul>'; inList = false; }
+            html += '<h2>' + esc(line.slice(3).trim()) + '</h2>';
+            continue;
+          }
+
+          // H3 heading
+          if (/^### /.test(line)) {
+            if (inList) { html += '</ul>'; inList = false; }
+            html += '<h3 style="font-size:.92rem;font-weight:700;margin:.75rem 0 .25rem;color:var(--text)">'
+                  + esc(line.slice(4).trim()) + '</h3>';
+            continue;
+          }
+
+          // Bullet list item
+          if (/^\* /.test(line)) {
+            if (!inList) { html += '<ul>'; inList = true; }
+            html += '<li>' + inline(line.slice(2).trim()) + '</li>';
+            continue;
+          }
+
+          // Close list before non-list content
+          if (inList && line.trim() !== '') {
+            html += '</ul>';
+            inList = false;
+          }
+
+          // Blank line
+          if (line.trim() === '') {
+            if (inList) { html += '</ul>'; inList = false; }
+            continue;
+          }
+
+          // Regular paragraph
+          html += '<p>' + inline(line.trim()) + '</p>';
+        }
+
+        if (inList) html += '</ul>';
+        return html;
+      }
+
+      // Escape HTML entities
+      function esc(str) {
+        return str
+          .replace(/&/g,  '&amp;')
+          .replace(/</g,  '&lt;')
+          .replace(/>/g,  '&gt;')
+          .replace(/"/g,  '&quot;');
+      }
+
+      // Inline formatting: **bold**
+      function inline(str) {
+        return esc(str).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      }
+
+      fetch('/api/legal/tos')
+        .then(function (res) {
+          if (!res.ok) throw new Error('Failed to load.');
+          return res.text();
+        })
+        .then(function (text) {
+          var el = document.getElementById('legal-content');
+          el.innerHTML = renderDoc(text);
+        })
+        .catch(function () {
+          var el = document.getElementById('legal-content');
+          el.innerHTML = '<p class="legal-error">Could not load the Terms of Service. Please try again.</p>';
+        });
+    }());
+  </script>
+</body>
+</html>

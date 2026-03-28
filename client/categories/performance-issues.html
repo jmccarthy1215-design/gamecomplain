@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performance Issues — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #74c0fc; --accent-hover: #339af0; }
+    .page-hero { background: linear-gradient(135deg, #001020 0%, #000d1a 100%); border-color: rgba(116,192,252,.25); }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+    <div class="page-hero">
+      <span class="page-hero-icon">&#9889;</span>
+      <h1>Performance Issues</h1>
+      <p class="page-subtitle">FPS drops, lag spikes, server instability, and hardware performance complaints.</p>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Performance Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { category: 'Performance Issues', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

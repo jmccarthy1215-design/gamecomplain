@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — GameComplain</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="page-hero" style="background:linear-gradient(135deg,rgba(123,127,158,.08),transparent)">
+      <span class="page-hero-icon">&#9881;&#65039;</span>
+      <h1>Settings</h1>
+      <p class="page-subtitle">Manage your account preferences</p>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-block">
+        <h2 class="settings-block-title">Appearance</h2>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <span class="settings-row-label">Dark / Light Mode</span>
+            <span class="settings-row-sub">Toggle the colour theme across all pages</span>
+          </div>
+          <button class="settings-theme-btn" id="settings-theme-btn">
+            <span id="settings-theme-label">🌙 Dark Mode</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="settings-block">
+        <h2 class="settings-block-title">Account</h2>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <span class="settings-row-label">Username</span>
+            <span class="settings-row-sub" id="settings-username">—</span>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <span class="settings-row-label">Role</span>
+            <span class="settings-row-sub" id="settings-role">—</span>
+          </div>
+        </div>
+        <div class="settings-row settings-row-danger">
+          <div class="settings-row-info">
+            <span class="settings-row-label">More account settings</span>
+            <span class="settings-row-sub">Password changes, notifications, and more are coming soon.</span>
+          </div>
+          <span class="settings-coming-soon">Coming soon</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="/shared/navbar.js"></script>
+  <script src="/shared/auth.js"></script>
+  <script>
+  (function () {
+    // ── Theme toggle ─────────────────────────────────────────────────
+    var btn   = document.getElementById('settings-theme-btn');
+    var label = document.getElementById('settings-theme-label');
+
+    function syncThemeLabel() {
+      var isLight = document.documentElement.classList.contains('light-mode');
+      label.textContent = isLight ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+
+    syncThemeLabel();
+
+    btn.addEventListener('click', function () {
+      var isLight = document.documentElement.classList.toggle('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      // Sync all theme toggles on the page (navbar button)
+      var navBtn = document.getElementById('theme-toggle');
+      if (navBtn) navBtn.textContent = isLight ? '🌙' : '☀️';
+      syncThemeLabel();
+    });
+
+    // ── Show user info ────────────────────────────────────────────────
+    (async function () {
+      var res = await fetch('/api/auth/me');
+      if (!res.ok) { window.location.href = '/'; return; }
+      var user = await res.json();
+      document.getElementById('settings-username').textContent = user.username;
+      document.getElementById('settings-role').textContent =
+        user.role === 'admin' ? 'Administrator' :
+        user.isVerifiedDev    ? 'Verified Developer' : 'Community Member';
+    }());
+  }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apex Legends Complaints — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #DA292A; --accent-hover: #b82020; }
+
+    .game-banner {
+      background: linear-gradient(150deg, #0e0602 0%, #180a02 50%, #0a0604 100%);
+      border: 1px solid rgba(218, 41, 42, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Aggressive orange-red energy burst top-left */
+    .game-banner::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: -40px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,107,43,0.2) 0%, rgba(218,41,42,0.08) 40%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Secondary glow, dimmer, right side */
+    .game-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -50px; right: 10%;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(218,41,42,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .banner-title {
+      color: #ff8055;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .stat-n { color: #FF6B2B; }
+
+    .banner-badge {
+      display: inline-block;
+      background: rgba(218,41,42,0.12);
+      border: 1px solid rgba(218,41,42,0.4);
+      color: #ff6b4a;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/" class="breadcrumb-link">Games</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Apex Legends</span>
+    </nav>
+
+    <div class="game-banner">
+      <div class="banner-badge">Battle Royale</div>
+      <h1 class="banner-title">Apex Legends</h1>
+      <p class="banner-sub">Legend balance, ranked frustrations, server drop issues, and ability exploit reports.</p>
+      <div class="banner-stats">
+        <div class="stat-block">
+          <div class="stat-n">2.2k</div>
+          <div class="stat-l">Complaints</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">15.8k</div>
+          <div class="stat-l">Upvotes</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">3.6k</div>
+          <div class="stat-l">Replies</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">#5</div>
+          <div class="stat-l">Most Active</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Apex Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { game: 'Apex Legends', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

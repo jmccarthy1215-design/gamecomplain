@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Clips — GameComplain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+  <style>
+    /* ── Clips page layout ─────────────────────────────────── */
+    .clips-hero {
+      background: linear-gradient(135deg, #0a0d1a 0%, #101525 50%, #0a0d1a 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .clips-hero-text h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.8px;
+      margin-bottom: 0.35rem;
+    }
+
+    .clips-hero-text p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      max-width: 440px;
+    }
+
+    .clips-post-btn {
+      flex-shrink: 0;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      padding: 0.65rem 1.3rem;
+      transition: background var(--transition), box-shadow var(--transition);
+      white-space: nowrap;
+    }
+
+    .clips-post-btn:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 14px rgba(108,99,255,0.35);
+    }
+
+    /* ── Clips filter bar ──────────────────────────────────── */
+    .clips-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ── Clip card ─────────────────────────────────────────── */
+    .clips-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .clip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    .clip-card:hover {
+      border-color: #3e4468;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .clip-video-wrap {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 */
+      background: #000;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .clip-video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .clip-body {
+      padding: 1rem 1.25rem 0.85rem;
+    }
+
+    .clip-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      line-height: 1.4;
+    }
+
+    .clip-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 0.85rem;
+    }
+
+    .clip-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .clip-game-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.3);
+      color: var(--accent);
+    }
+
+    .clip-author {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .clip-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .clip-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1.25rem 0.9rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .clip-like-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      transition: all var(--transition);
+    }
+
+    .clip-like-btn:hover { border-color: #ff6b6b; color: #ff6b6b; }
+    .clip-like-btn.liked { border-color: #ff6b6b; color: #ff6b6b; background: rgba(255,107,107,0.08); }
+
+    .clip-comment-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      transition: all var(--transition);
+    }
+
+    .clip-comment-toggle:hover { border-color: var(--reply-color); color: var(--reply-color); }
+    .clip-comment-toggle.active { border-color: var(--reply-color); color: var(--reply-color); }
+
+    .clip-delete-btn {
+      display: none;
+      align-items: center;
+      gap: 0.3rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--error);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+      padding: 0.35rem 0.75rem;
+      margin-left: auto;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    .clip-delete-btn:hover { background: rgba(255,95,109,0.08); border-color: var(--error); }
+    .clip-delete-btn.visible { display: inline-flex; }
+    html.is-admin .clip-delete-btn { display: inline-flex; }
+
+    /* ── Comments section ──────────────────────────────────── */
+    .clip-comments {
+      border-top: 1px solid var(--border);
+      padding: 0.85rem 1.25rem;
+      display: none;
+    }
+
+    .clip-comments.open { display: block; }
+
+    .clip-comment-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .clip-comment-item:last-of-type { border-bottom: none; }
+
+    .clip-comment-text { font-size: 0.85rem; color: var(--text); line-height: 1.5; }
+    .clip-comment-meta { font-size: 0.73rem; color: var(--text-muted); }
+
+    .clip-comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+    }
+
+    .clip-comment-input {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.85rem;
+      padding: 0.6rem 0.85rem;
+      resize: vertical;
+      min-height: 62px;
+      transition: border-color var(--transition);
+    }
+
+    .clip-comment-input:focus {
+      outline: none;
+      border-color: var(--reply-color);
+      box-shadow: 0 0 0 3px rgba(77,171,247,0.12);
+    }
+
+    .clip-comment-err { font-size: 0.8rem; color: var(--error); }
+
+    .clip-comment-submit {
+      align-self: flex-end;
+      background: var(--reply-color);
+      border: none;
+      border-radius: 8px;
+      color: #0d0f1a;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      padding: 0.45rem 1.1rem;
+      transition: opacity var(--transition), box-shadow var(--transition);
+    }
+
+    .clip-comment-submit:hover:not(:disabled) {
+      opacity: 0.88;
+      box-shadow: 0 3px 10px rgba(77,171,247,0.3);
+    }
+
+    .clip-comment-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Post clip modal ───────────────────────────────────── */
+    .clips-modal-hint {
+      background: rgba(108,99,255,0.08);
+      border: 1px solid rgba(108,99,255,0.25);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    /* ── Empty / loading states ────────────────────────────── */
+    .clips-empty, .clips-loading {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 3rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 680px) {
+      .clips-hero { flex-direction: column; align-items: flex-start; }
+      .clips-hero-text h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Clips</span>
+    </nav>
+
+    <!-- Hero -->
+    <div class="clips-hero">
+      <div class="clips-hero-text">
+        <h1>&#127909; Game Clips</h1>
+        <p>Share your best (and worst) gaming moments. YouTube and Twitch clips welcome — no file uploads needed.</p>
+      </div>
+      <button class="clips-post-btn" id="open-clip-modal">+ Share a Clip</button>
+    </div>
+
+    <!-- Post Clip Modal -->
+    <div id="clip-modal-overlay" class="modal-overlay hidden"
+         role="dialog" aria-modal="true" aria-labelledby="clip-modal-title">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="clip-modal-title">Share a Clip</h2>
+          <button class="modal-close" id="clip-modal-close" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="clips-modal-hint">
+          &#128279; Paste a <strong>YouTube</strong> or <strong>Twitch clip</strong> URL — we'll embed it automatically. You must be logged in to share clips.
+        </div>
+        <form id="clip-form" novalidate>
+          <div class="field-group">
+            <label for="clip-title">Title</label>
+            <input type="text" id="clip-title" placeholder="What's this clip about?" maxlength="100" required />
+          </div>
+          <div class="field-group">
+            <label for="clip-url">Video URL</label>
+            <input type="url" id="clip-url" placeholder="https://youtu.be/... or https://clips.twitch.tv/..." required />
+          </div>
+          <div class="field-group">
+            <label for="clip-game">Game</label>
+            <select id="clip-game">
+              <option value="">Not game-specific</option>
+              <option value="Fortnite">Fortnite</option>
+              <option value="Call of Duty">Call of Duty</option>
+              <option value="Minecraft">Minecraft</option>
+              <option value="Valorant">Valorant</option>
+              <option value="Apex Legends">Apex Legends</option>
+              <option value="League of Legends">League of Legends</option>
+              <option value="Rocket League">Rocket League</option>
+              <option value="Clash Royale">Clash Royale</option>
+              <option value="Counter-Strike 2">Counter-Strike 2</option>
+              <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="clip-desc">Description <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+            <textarea id="clip-desc" placeholder="Add context or commentary..." maxlength="500" rows="3"></textarea>
+          </div>
+          <p id="clip-form-msg" class="form-message" aria-live="polite"></p>
+          <button type="submit" id="clip-submit">Share Clip</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="clips-filter-bar">
+      <span class="filter-label">Filter:</span>
+      <select id="cf-game" class="filter-select" aria-label="Filter by game">
+        <option value="">All Games</option>
+        <option value="Fortnite">Fortnite</option>
+        <option value="Call of Duty">Call of Duty</option>
+        <option value="Minecraft">Minecraft</option>
+        <option value="Valorant">Valorant</option>
+        <option value="Apex Legends">Apex Legends</option>
+        <option value="League of Legends">League of Legends</option>
+        <option value="Rocket League">Rocket League</option>
+        <option value="Clash Royale">Clash Royale</option>
+        <option value="Counter-Strike 2">Counter-Strike 2</option>
+        <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+        <option value="Other">Other</option>
+      </select>
+      <select id="cf-sort" class="filter-select" aria-label="Sort order">
+        <option value="newest">Newest First</option>
+        <option value="likes">Most Liked</option>
+      </select>
+      <select id="cf-range" class="filter-select" aria-label="Date range">
+        <option value="all">All Time</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+    </div>
+
+    <!-- Clips feed -->
+    <div class="clips-list" id="clips-list">
+      <p class="clips-loading">Loading clips…</p>
+    </div>
+
+  </div>
+
+  <script src="/shared/auth.js"></script>
+  <script>
+  (function () {
+    var API = '/api/clips';
+
+    // ── Helpers ───────────────────────────────────────────
+    function esc(str) {
+      var d = document.createElement('div');
+      d.appendChild(document.createTextNode(String(str || '')));
+      return d.innerHTML;
+    }
+
+    function fmtDate(iso) {
+      return new Date(iso).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+    }
+
+    function getUser() {
+      return typeof window.getAuthUser === 'function' ? window.getAuthUser() : null;
+    }
+
+    // ── Modal ─────────────────────────────────────────────
+    var overlay  = document.getElementById('clip-modal-overlay');
+    var openBtn  = document.getElementById('open-clip-modal');
+    var closeBtn = document.getElementById('clip-modal-close');
+    var form     = document.getElementById('clip-form');
+    var formMsg  = document.getElementById('clip-form-msg');
+
+    function openModal() { overlay.classList.remove('hidden'); document.body.classList.add('modal-open'); document.getElementById('clip-title').focus(); }
+    function closeModal() { overlay.classList.add('hidden'); document.body.classList.remove('modal-open'); form.reset(); formMsg.textContent = ''; formMsg.className = 'form-message'; }
+
+    openBtn.addEventListener('click', function() {
+      if (!getUser()) { alert('Please log in to share clips.'); return; }
+      openModal();
+    });
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeModal(); });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      formMsg.textContent = '';
+      formMsg.className = 'form-message';
+
+      var title = document.getElementById('clip-title').value.trim();
+      var url   = document.getElementById('clip-url').value.trim();
+      var game  = document.getElementById('clip-game').value;
+      var desc  = document.getElementById('clip-desc').value.trim();
+
+      if (!title || !url) {
+        formMsg.textContent = 'Title and video URL are required.';
+        formMsg.className = 'form-message error';
+        return;
+      }
+
+      var btn = document.getElementById('clip-submit');
+      btn.disabled = true; btn.textContent = 'Sharing…';
+
+      fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: title, videoUrl: url, game: game, description: desc })
+      })
+      .then(function(res) { return res.json().then(function(d) { return { ok: res.ok, data: d }; }); })
+      .then(function(r) {
+        if (!r.ok) throw new Error(r.data.error || 'Failed.');
+        formMsg.textContent = 'Clip shared!';
+        formMsg.className = 'form-message success';
+        form.reset();
+        setTimeout(function() { closeModal(); loadClips(); }, 900);
+      })
+      .catch(function(err) {
+        formMsg.textContent = err.message || 'Something went wrong.';
+        formMsg.className = 'form-message error';
+      })
+      .finally(function() { btn.disabled = false; btn.textContent = 'Share Clip'; });
+    });
+
+    // ── Render clip card ──────────────────────────────────
+    function renderClip(clip) {
+      var card = document.createElement('article');
+      card.className = 'clip-card';
+      card.dataset.id = clip._id;
+
+      var user   = getUser();
+      var isOwn  = user && clip.userId && String(clip.userId) === String(user._id);
+      var liked  = !!clip.myLike;
+      var commCount = (clip.comments || []).length;
+
+      card.innerHTML =
+        '<div class="clip-video-wrap">' +
+          '<iframe src="' + esc(clip.videoUrl) + '" allowfullscreen allow="autoplay; encrypted-media"></iframe>' +
+        '</div>' +
+        '<div class="clip-body">' +
+          '<div class="clip-title">' + esc(clip.title) + '</div>' +
+          (clip.description ? '<div class="clip-desc">' + esc(clip.description) + '</div>' : '') +
+          '<div class="clip-meta">' +
+            (clip.game ? '<span class="clip-game-badge">' + esc(clip.game) + '</span>' : '') +
+            '<span class="clip-author">&#128100; ' + esc(clip.username || 'Anonymous') + '</span>' +
+            '<span class="clip-date">' + fmtDate(clip.createdAt) + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="clip-actions">' +
+          '<button class="clip-like-btn' + (liked ? ' liked' : '') + '" aria-label="Like clip">' +
+            '&#10084; <span class="like-count">' + clip.likes + '</span>' +
+          '</button>' +
+          '<button class="clip-comment-toggle" aria-label="Toggle comments">' +
+            '&#128172; <span class="comment-count">' + commCount + '</span>' +
+          '</button>' +
+          '<button class="clip-delete-btn' + (isOwn ? ' visible' : '') + '" aria-label="Delete clip">&#128465; Delete</button>' +
+        '</div>' +
+        '<div class="clip-comments">' +
+          buildCommentsHtml(clip.comments || []) +
+          '<div class="clip-comment-form">' +
+            '<textarea class="clip-comment-input" placeholder="Add a comment…" maxlength="500" rows="2"></textarea>' +
+            '<p class="clip-comment-err"></p>' +
+            '<button class="clip-comment-submit">Submit</button>' +
+          '</div>' +
+        '</div>';
+
+      // Like button
+      var likeBtn = card.querySelector('.clip-like-btn');
+      var likeCount = card.querySelector('.like-count');
+      likeBtn.addEventListener('click', function() {
+        if (!getUser()) { alert('Please log in to like clips.'); return; }
+        fetch(API + '/' + clip._id + '/like', { method: 'PATCH' })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          likeCount.textContent = d.likes;
+          likeBtn.classList.toggle('liked', !!d.myLike);
+        })
+        .catch(function() {});
+      });
+
+      // Comments toggle
+      var commSection = card.querySelector('.clip-comments');
+      var commToggle  = card.querySelector('.clip-comment-toggle');
+      commToggle.addEventListener('click', function() {
+        var open = commSection.classList.toggle('open');
+        commToggle.classList.toggle('active', open);
+        if (open) card.querySelector('.clip-comment-input').focus();
+      });
+
+      // Comment submit
+      var commInput = card.querySelector('.clip-comment-input');
+      var commErr   = card.querySelector('.clip-comment-err');
+      var commSubmit = card.querySelector('.clip-comment-submit');
+      var commCountEl = card.querySelector('.comment-count');
+
+      commSubmit.addEventListener('click', function() {
+        if (!getUser()) { alert('Please log in to comment.'); return; }
+        var text = commInput.value.trim();
+        commErr.textContent = '';
+        if (!text) { commErr.textContent = 'Comment cannot be empty.'; return; }
+        commSubmit.disabled = true; commSubmit.textContent = 'Posting…';
+
+        fetch(API + '/' + clip._id + '/comment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: text })
+        })
+        .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+        .then(function(res) {
+          if (!res.ok) throw new Error(res.data.error || 'Failed.');
+          commInput.value = '';
+          var listEl = commSection.querySelector('.clip-comments-list') || commSection;
+          var item = document.createElement('div');
+          item.className = 'clip-comment-item';
+          item.innerHTML =
+            '<div class="clip-comment-text">' + esc(res.data.text) + '</div>' +
+            '<div class="clip-comment-meta">&#128100; ' + esc(res.data.username) + ' &middot; ' + fmtDate(res.data.createdAt) + '</div>';
+          commSection.insertBefore(item, commSection.querySelector('.clip-comment-form'));
+          commCountEl.textContent = parseInt(commCountEl.textContent, 10) + 1;
+        })
+        .catch(function(err) { commErr.textContent = err.message || 'Could not post comment.'; })
+        .finally(function() { commSubmit.disabled = false; commSubmit.textContent = 'Submit'; });
+      });
+
+      // Delete clip
+      var delBtn = card.querySelector('.clip-delete-btn');
+      delBtn.addEventListener('click', function() {
+        if (!confirm('Delete this clip? This cannot be undone.')) return;
+        fetch(API + '/' + clip._id, { method: 'DELETE' })
+        .then(function(r) { if (r.ok) card.remove(); else return r.json().then(function(d) { alert(d.error || 'Delete failed.'); }); })
+        .catch(function() { alert('Could not delete clip.'); });
+      });
+
+      return card;
+    }
+
+    function buildCommentsHtml(comments) {
+      if (!comments.length) return '';
+      return comments.map(function(c) {
+        return '<div class="clip-comment-item">' +
+          '<div class="clip-comment-text">' + esc(c.text) + '</div>' +
+          '<div class="clip-comment-meta">&#128100; ' + esc(c.username) + ' &middot; ' + fmtDate(c.createdAt) + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // ── Filters ───────────────────────────────────────────
+    var cfGame  = document.getElementById('cf-game');
+    var cfSort  = document.getElementById('cf-sort');
+    var cfRange = document.getElementById('cf-range');
+
+    function loadClips() {
+      var listEl = document.getElementById('clips-list');
+      listEl.innerHTML = '<p class="clips-loading">Loading clips…</p>';
+
+      var params = new URLSearchParams();
+      if (cfGame.value)  params.set('game',  cfGame.value);
+      if (cfSort.value)  params.set('sort',  cfSort.value);
+      if (cfRange.value && cfRange.value !== 'all') params.set('range', cfRange.value);
+
+      var qs = params.toString() ? '?' + params.toString() : '';
+      fetch(API + qs)
+      .then(function(r) { if (!r.ok) throw new Error('Server error'); return r.json(); })
+      .then(function(clips) {
+        listEl.innerHTML = '';
+        if (!clips.length) {
+          listEl.innerHTML = '<p class="clips-empty">No clips yet. Be the first to share one!</p>';
+          return;
+        }
+        var user = getUser();
+        clips.forEach(function(c) {
+          // Sync delete visibility after auth
+          listEl.appendChild(renderClip(c));
+        });
+      })
+      .catch(function() {
+        listEl.innerHTML = '<p class="clips-empty">Could not load clips — make sure the server is running.</p>';
+      });
+    }
+
+    cfGame.addEventListener('change', loadClips);
+    cfSort.addEventListener('change', loadClips);
+    cfRange.addEventListener('change', loadClips);
+
+    // Reload after auth resolves so ownership buttons appear
+    window.addEventListener('authReady', function() { loadClips(); });
+
+    loadClips();
+  }());
+  </script>
+</body>
+</html>

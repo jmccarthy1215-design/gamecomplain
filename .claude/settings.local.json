@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check client/clips.html)",
+      "Bash(node --check client/complain-about-us.html)"
+    ]
+  }
+}

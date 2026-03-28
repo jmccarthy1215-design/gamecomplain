@@ -1,0 +1,125 @@
+**Privacy Policy**
+
+**Last Updated:** March 26, 2026
+
+GameComplain values your privacy. This Privacy Policy explains how we collect, use, and protect your information.
+
+---
+
+## 1. Information We Collect
+
+We may collect the following information:
+
+### a. Account Information
+
+* Username
+* Password (stored securely as a hash)
+* Role (user/admin/dev)
+* Account creation date
+
+### b. User Content
+
+* Complaints
+* Replies
+* Votes
+
+### c. Technical Data
+
+* IP address
+* Browser type
+* Device information
+* Log data (for debugging and security)
+
+---
+
+## 2. How We Use Your Information
+
+We use collected data to:
+
+* Provide and maintain the platform
+* Manage user accounts
+* Display posts and replies
+* Enable voting and interactions
+* Improve website functionality
+* Detect and prevent abuse or fraud
+
+---
+
+## 3. Data Storage and Security
+
+* Passwords are stored using secure hashing methods
+* We take reasonable measures to protect user data
+* However, no system is 100% secure
+
+---
+
+## 4. Sharing of Information
+
+We do not sell your personal data.
+
+We may share limited information only when necessary:
+
+* To comply with legal obligations
+* To enforce our Terms of Service
+* To protect the rights and safety of users and the platform
+
+---
+
+## 5. User Content Visibility
+
+Content you post (complaints, replies, etc.) is visible to other users of the platform.
+
+Do not share sensitive personal information in public posts.
+
+---
+
+## 6. Cookies and Tracking
+
+We may use:
+
+* Cookies for session management
+* Local storage for user experience improvements
+
+These help keep you logged in and improve performance.
+
+---
+
+## 7. Your Rights
+
+Depending on your location, you may have rights to:
+
+* Access your personal data
+* Request deletion of your account
+* Request correction of inaccurate data
+
+To make such a request, contact the site administrator.
+
+---
+
+## 8. Data Retention
+
+We retain user data as long as the account is active or as needed to operate the platform.
+
+You may request deletion of your account and associated data.
+
+---
+
+## 9. Third-Party Services
+
+We may rely on external services for:
+
+* Hosting
+* Authentication
+* Data storage
+
+These services may process data in accordance with their own privacy policies.
+
+---
+
+## 10. Changes to This Policy
+
+We may update this Privacy Policy from time to time. Continued use of the site constitutes acceptance of any changes.
+
+---
+
+If you have questions or concerns about this Privacy Policy, please contact the site administrator.

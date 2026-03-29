@@ -275,9 +275,10 @@
     loginBtn.textContent  = 'Logging in…';
     try {
       var res  = await fetch((window.API_URL || '') + '/api/auth/login', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email: email, password: password })
+        method:      'POST',
+        headers:     { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body:        JSON.stringify({ email: email, password: password })
       });
       var data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Login failed.');
@@ -318,9 +319,10 @@
     regBtn.textContent  = 'Creating account…';
     try {
       var res  = await fetch((window.API_URL || '') + '/api/auth/register', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email: email, displayName: displayName, password: password, acceptedTerms: true })
+        method:      'POST',
+        headers:     { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body:        JSON.stringify({ email: email, displayName: displayName, password: password, acceptedTerms: true })
       });
       var data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Registration failed.');
@@ -338,7 +340,7 @@
   }
 
   async function doLogout() {
-    try { await fetch((window.API_URL || '') + '/api/auth/logout', { method: 'POST' }); } catch (_) {}
+    try { await fetch((window.API_URL || '') + '/api/auth/logout', { method: 'POST', credentials: 'include' }); } catch (_) {}
     currentUser = null;
     updateNavbar(null);
     window.dispatchEvent(new CustomEvent('authReady', { detail: null }));
@@ -352,7 +354,7 @@
   // ── Bootstrap: restore session if cookie is present ───────────────
   (async function checkSession() {
     try {
-      var res = await fetch((window.API_URL || '') + '/api/auth/me');
+      var res = await fetch((window.API_URL || '') + '/api/auth/me', { credentials: 'include' });
       if (res.ok) {
         currentUser = await res.json();
         updateNavbar(currentUser);
@@ -374,9 +376,10 @@
     if (msgEl) { msgEl.textContent = 'Signing in with Google…'; msgEl.className = 'auth-message'; }
 
     fetch((window.API_URL || '') + '/api/auth/google', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ credential: credential })
+      method:      'POST',
+      headers:     { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body:        JSON.stringify({ credential: credential })
     })
     .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, data: d }; }); })
     .then(function (result) {

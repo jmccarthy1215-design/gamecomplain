@@ -70,11 +70,14 @@ function issueToken(userId) {
 }
 
 /** Cookie options — httpOnly prevents JS access, sameSite prevents CSRF */
+// In production (Vercel → Render cross-origin), cookies require sameSite:'none' + secure:true.
+// In local dev (same-origin), strict + no-secure is fine.
+const isProduction = process.env.NODE_ENV === 'production';
 const COOKIE_OPTS = {
   httpOnly: true,
-  sameSite: 'strict',
+  sameSite: isProduction ? 'none' : 'strict',
+  secure:   isProduction,
   maxAge:   7 * 24 * 60 * 60 * 1000  // 7 days
-  // secure: true — uncomment when deploying behind HTTPS
 };
 
 module.exports = { authenticate, requireAuth, requireDeveloper, requireAdmin, issueToken, COOKIE_NAME, COOKIE_OPTS };

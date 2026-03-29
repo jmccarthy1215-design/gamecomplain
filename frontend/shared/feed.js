@@ -216,6 +216,7 @@
     fetch(API_BASE + '/' + complaintId + '/vote', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ type: type })
     })
     .then(function (res) {
@@ -436,6 +437,7 @@
       fetch(API_BASE + '/' + id + '/reply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(body)
       })
       .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, data: d }; }); })
@@ -542,7 +544,7 @@
     var deleteBtn = card.querySelector('.delete-btn');
     deleteBtn.addEventListener('click', function () {
       if (!window.confirm('Permanently delete this complaint? This cannot be undone.')) return;
-      fetch(API_BASE + '/' + id, { method: 'DELETE' })
+      fetch(API_BASE + '/' + id, { method: 'DELETE', credentials: 'include' })
       .then(function (res) {
         if (!res.ok) return res.json().then(function (d) { throw new Error(d.error || 'Delete failed.'); });
         card.remove();
@@ -599,7 +601,7 @@
       var cid = btn.dataset.complaintId;
       var rid = btn.dataset.replyId;
 
-      fetch(API_BASE + '/' + cid + '/replies/' + rid, { method: 'DELETE' })
+      fetch(API_BASE + '/' + cid + '/replies/' + rid, { method: 'DELETE', credentials: 'include' })
       .then(function (res) {
         if (!res.ok) return res.json().then(function (d) { throw new Error(d.error || 'Delete failed.'); });
         var item = btn.closest('.reply-item');

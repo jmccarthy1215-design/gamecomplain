@@ -85,7 +85,7 @@
 
     // ── Show user info ────────────────────────────────────────────────
     (async function () {
-      var res = await fetch((window.API_URL || '') + '/api/auth/me');
+      var res = await fetch((window.API_URL || '') + '/api/auth/me', { credentials: 'include' });
       if (!res.ok) { window.location.href = '/'; return; }
       var user = await res.json();
       document.getElementById('settings-username').textContent = user.username;

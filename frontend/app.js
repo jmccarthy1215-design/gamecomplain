@@ -219,6 +219,7 @@ async function handleVote(complaintId, type, card) {
     const res = await fetch(`${API_BASE}/${complaintId}/vote`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ type })
     });
     if (!res.ok) {
@@ -381,6 +382,7 @@ function renderCard(complaint) {
       const res = await fetch(`${API_BASE}/${id}/reply`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ text })
       });
 
@@ -430,7 +432,7 @@ function renderCard(complaint) {
   deleteBtn.addEventListener('click', async () => {
     if (!window.confirm('Permanently delete this complaint? This cannot be undone.')) return;
     try {
-      const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE', credentials: 'include' });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'Delete failed.');
@@ -485,7 +487,7 @@ function renderCard(complaint) {
     const rid = btn.dataset.replyId;
 
     try {
-      const res = await fetch(`${API_BASE}/${cid}/replies/${rid}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/${cid}/replies/${rid}`, { method: 'DELETE', credentials: 'include' });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'Delete failed.');

@@ -232,8 +232,11 @@
       if (ddSub)  ddSub.textContent  = 'Sign in to save your posts';
     }
 
-    // Wire logout button (idempotent: removes old listener by replacing element)
+    // Show logout only when authenticated
     var logoutEl = document.querySelector('.profile-logout');
+    if (logoutEl) logoutEl.style.display = user ? '' : 'none';
+
+    // Wire logout button (idempotent: removes old listener by replacing element)
     if (logoutEl) {
       var clone = logoutEl.cloneNode(true);
       logoutEl.parentNode.replaceChild(clone, logoutEl);

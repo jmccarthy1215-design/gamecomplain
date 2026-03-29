@@ -246,6 +246,31 @@ router.delete('/:id/replies/:replyId', requireAuth, async (req, res) => {
   }
 });
 
+// PATCH /api/complaints/:id/replies/:replyId/like — increment like count on a reply
+router.patch('/:id/replies/:replyId/like', async (req, res) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+    if (!complaint) {
+      return res.status(404).json({ error: 'Complaint not found.' });
+    }
+
+    const reply = complaint.replies.id(req.params.replyId);
+    if (!reply) {
+      return res.status(404).json({ error: 'Reply not found.' });
+    }
+
+    reply.likes = (reply.likes || 0) + 1;
+    await complaint.save();
+    res.json({ likes: reply.likes });
+  } catch (err) {
+    if (err.name === 'CastError') {
+      return res.status(400).json({ error: 'Invalid ID.' });
+    }
+    console.error('PATCH /api/complaints/:id/replies/:replyId/like error:', err);
+    res.status(500).json({ error: 'Server error. Please try again.' });
+  }
+});
+
 // DELETE /api/complaints/:id — permanently remove a complaint (owner or admin)
 router.delete('/:id', requireAuth, async (req, res) => {
   try {

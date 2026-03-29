@@ -1633,6 +1633,38 @@ html.light-mode select option {
 html.is-admin .delete-btn { display: inline-flex; }
 .delete-btn.own-delete-visible { display: inline-flex; }
 
+/* Reply like button */
+.reply-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: 1px solid rgba(247, 131, 172, 0.35);
+  border-radius: 20px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.reply-like-btn:hover:not(:disabled) {
+  background: rgba(247, 131, 172, 0.1);
+  border-color: #f783ac;
+  color: #f783ac;
+}
+
+.reply-like-btn.liked,
+.reply-like-btn:disabled {
+  color: #f783ac;
+  border-color: rgba(247, 131, 172, 0.6);
+  cursor: default;
+}
+
 /* Reply delete button — same appearance as complaint delete, hidden by default */
 .reply-delete-btn {
   display: none;

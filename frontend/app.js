@@ -159,11 +159,19 @@ function renderRepliesInto(container, replies, complaintId) {
 
     const isOwnReply = currentUser && reply.userId && String(reply.userId) === String(currentUser._id);
 
+    const likedReplies = new Set(JSON.parse(localStorage.getItem('likedReplies') || '[]'));
+    const hasLiked = likedReplies.has(String(reply._id));
+
     item.innerHTML =
       (isDev ? `<div class="reply-dev-header"><span class="dev-reply-badge">&#128737; ${escapeHtml(reply.developerTag)}</span></div>` : '') +
       `<p class="reply-text">${escapeHtml(reply.text)}</p>` +
       `<div class="reply-footer">` +
         `<p class="reply-date">${formatDate(reply.createdAt)}</p>` +
+        `<button class="reply-like-btn${hasLiked ? ' liked' : ''}" ` +
+                `data-complaint-id="${escapeHtml(complaintId)}" ` +
+                `data-reply-id="${escapeHtml(reply._id)}" ` +
+                `${hasLiked ? 'disabled' : ''} ` +
+                `aria-label="Like reply">&#9829; <span class="reply-like-count">${reply.likes || 0}</span></button>` +
         `<button class="reply-delete-btn${isOwnReply ? ' own-delete-visible' : ''}" ` +
                 `data-complaint-id="${escapeHtml(complaintId)}" ` +
                 `data-reply-id="${escapeHtml(reply._id)}" ` +
@@ -434,8 +442,40 @@ function renderCard(complaint) {
     }
   });
 
-  // ── Delete reply (event delegation on replies-list) ───────────
+  // ── Like reply (event delegation on replies-list) ─────────────
   const repliesListEl = repliesSection.querySelector('.replies-list');
+  repliesListEl.addEventListener('click', async (e) => {
+    const likeBtn = e.target.closest('.reply-like-btn');
+    if (!likeBtn) return;
+    if (likeBtn.disabled) return;
+
+    const cid = likeBtn.dataset.complaintId;
+    const rid = likeBtn.dataset.replyId;
+    const countEl = likeBtn.querySelector('.reply-like-count');
+    const prev = parseInt(countEl.textContent, 10);
+
+    countEl.textContent = prev + 1;
+    likeBtn.disabled = true;
+    likeBtn.classList.add('liked');
+
+    const likedReplies = new Set(JSON.parse(localStorage.getItem('likedReplies') || '[]'));
+    likedReplies.add(rid);
+    localStorage.setItem('likedReplies', JSON.stringify(Array.from(likedReplies)));
+
+    try {
+      const res = await fetch(`${API_BASE}/${cid}/replies/${rid}/like`, { method: 'PATCH' });
+      if (!res.ok) throw new Error('failed');
+      countEl.textContent = (await res.json()).likes;
+    } catch (_) {
+      countEl.textContent = prev;
+      likeBtn.disabled = false;
+      likeBtn.classList.remove('liked');
+      likedReplies.delete(rid);
+      localStorage.setItem('likedReplies', JSON.stringify(Array.from(likedReplies)));
+    }
+  });
+
+  // ── Delete reply (event delegation on replies-list) ───────────
   repliesListEl.addEventListener('click', async (e) => {
     const btn = e.target.closest('.reply-delete-btn');
     if (!btn) return;

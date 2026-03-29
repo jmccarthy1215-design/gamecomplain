@@ -25,6 +25,10 @@ const replySchema = new mongoose.Schema({
     trim:    true,
     default: ''
   },
+  likes: {
+    type: Number,
+    default: 0
+  },
   // Threading — null means top-level reply; set to a sibling reply's _id for a nested reply
   parentReplyId: {
     type:    mongoose.Schema.Types.ObjectId,

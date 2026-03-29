@@ -245,6 +245,9 @@
     item.dataset.id     = r._id;
     item.dataset.userId = r.userId || '';
 
+    var likedReplies = new Set(JSON.parse(localStorage.getItem('likedReplies') || '[]'));
+    var hasLiked = likedReplies.has(String(r._id));
+
     item.innerHTML =
       (isDev ? '<div class="reply-dev-header"><span class="dev-reply-badge">&#128737; ' + escapeHtml(r.developerTag) + '</span></div>' : '') +
       '<p class="reply-text">' + escapeHtml(r.text) + '</p>' +
@@ -253,6 +256,11 @@
         '<p class="reply-date">' + formatDate(r.createdAt) + '</p>' +
         '<button class="reply-to-reply-btn" data-reply-id="' + escapeHtml(r._id) + '" ' +
                 'data-reply-user="' + escapeHtml(r.username || 'Anonymous') + '">&#128172; Reply</button>' +
+        '<button class="reply-like-btn' + (hasLiked ? ' liked' : '') + '" ' +
+                'data-complaint-id="' + escapeHtml(complaintId) + '" ' +
+                'data-reply-id="' + escapeHtml(r._id) + '" ' +
+                (hasLiked ? 'disabled ' : '') +
+                'aria-label="Like reply">&#9829; <span class="reply-like-count">' + (r.likes || 0) + '</span></button>' +
         '<button class="reply-delete-btn' + (isOwn ? ' own-delete-visible' : '') + '" ' +
                 'data-complaint-id="' + escapeHtml(complaintId) + '" ' +
                 'data-reply-id="' + escapeHtml(r._id) + '" ' +
@@ -545,8 +553,44 @@
       });
     });
 
-    // Delete reply (event delegation)
+    // Like reply (event delegation)
     var repliesListEl = repliesSection.querySelector('.replies-list');
+    repliesListEl.addEventListener('click', function (e) {
+      var likeBtn = e.target.closest('.reply-like-btn');
+      if (!likeBtn) return;
+      if (likeBtn.disabled) return;
+
+      var cid = likeBtn.dataset.complaintId;
+      var rid = likeBtn.dataset.replyId;
+      var countEl = likeBtn.querySelector('.reply-like-count');
+      var prev = parseInt(countEl.textContent, 10);
+
+      countEl.textContent = prev + 1;
+      likeBtn.disabled = true;
+      likeBtn.classList.add('liked');
+
+      var likedReplies = new Set(JSON.parse(localStorage.getItem('likedReplies') || '[]'));
+      likedReplies.add(rid);
+      localStorage.setItem('likedReplies', JSON.stringify(Array.from(likedReplies)));
+
+      fetch(API_BASE + '/' + cid + '/replies/' + rid + '/like', { method: 'PATCH' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('failed');
+        return res.json();
+      })
+      .then(function (data) {
+        countEl.textContent = data.likes;
+      })
+      .catch(function () {
+        countEl.textContent = prev;
+        likeBtn.disabled = false;
+        likeBtn.classList.remove('liked');
+        likedReplies.delete(rid);
+        localStorage.setItem('likedReplies', JSON.stringify(Array.from(likedReplies)));
+      });
+    });
+
+    // Delete reply (event delegation)
     repliesListEl.addEventListener('click', function (e) {
       var btn = e.target.closest('.reply-delete-btn');
       if (!btn) return;

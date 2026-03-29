@@ -9,13 +9,22 @@ const TOP_THRESHOLD = 50;
 
 // Category badge color map — background / text color pairs
 const CATEGORY_COLORS = {
-  'Game Bugs':           { bg: 'rgba(255,107,107,0.15)', border: 'rgba(255,107,107,0.4)', color: '#ff8787' },
-  'Broken Characters':   { bg: 'rgba(255,169,77,0.15)',  border: 'rgba(255,169,77,0.4)',  color: '#ffa94d' },
-  'Stupid Mechanics':    { bg: 'rgba(255,212,59,0.15)',  border: 'rgba(255,212,59,0.4)',  color: '#ffd43b' },
-  'Matchmaking Issues':  { bg: 'rgba(105,219,124,0.15)', border: 'rgba(105,219,124,0.4)', color: '#69db7c' },
+  // New structured categories
+  'Weapons':             { bg: 'rgba(255,107,107,0.15)', border: 'rgba(255,107,107,0.4)', color: '#ff8787' },
+  'Characters / Agents': { bg: 'rgba(32,201,151,0.15)',  border: 'rgba(32,201,151,0.4)',  color: '#20c997' },
+  'Mechanics':           { bg: 'rgba(255,212,59,0.15)',  border: 'rgba(255,212,59,0.4)',  color: '#ffd43b' },
+  'Maps':                { bg: 'rgba(105,219,124,0.15)', border: 'rgba(105,219,124,0.4)', color: '#69db7c' },
+  'Bugs / Glitches':     { bg: 'rgba(255,107,107,0.15)', border: 'rgba(255,107,107,0.4)', color: '#ff6b6b' },
+  'Matchmaking Issues':  { bg: 'rgba(77,171,247,0.15)',  border: 'rgba(77,171,247,0.4)',  color: '#74c0fc' },
   'Performance Issues':  { bg: 'rgba(77,171,247,0.15)',  border: 'rgba(77,171,247,0.4)',  color: '#74c0fc' },
   'Cheating / Exploits': { bg: 'rgba(247,131,172,0.15)', border: 'rgba(247,131,172,0.4)', color: '#f783ac' },
   'Updates / Patches':   { bg: 'rgba(169,227,75,0.15)',  border: 'rgba(169,227,75,0.4)',  color: '#a9e34b' },
+  'Ranked / Competitive':{ bg: 'rgba(188,110,255,0.15)', border: 'rgba(188,110,255,0.4)', color: '#be6cff' },
+  'Skins / Cosmetics':   { bg: 'rgba(247,131,172,0.15)', border: 'rgba(247,131,172,0.4)', color: '#f783ac' },
+  // Legacy categories
+  'Game Bugs':           { bg: 'rgba(255,107,107,0.15)', border: 'rgba(255,107,107,0.4)', color: '#ff8787' },
+  'Broken Characters':   { bg: 'rgba(255,169,77,0.15)',  border: 'rgba(255,169,77,0.4)',  color: '#ffa94d' },
+  'Stupid Mechanics':    { bg: 'rgba(255,212,59,0.15)',  border: 'rgba(255,212,59,0.4)',  color: '#ffd43b' },
   'Other':               { bg: 'rgba(123,127,158,0.15)', border: 'rgba(123,127,158,0.4)', color: '#a0a3bb' }
 };
 
@@ -28,6 +37,8 @@ const titleInput    = document.getElementById('c-title');
 const descInput     = document.getElementById('c-description');
 const catSelect     = document.getElementById('c-category');
 const gameSelect    = document.getElementById('c-game');
+const itemInput     = document.getElementById('c-item');
+const itemDatalist  = document.getElementById('c-item-list');
 const submitBtn     = document.getElementById('submit-btn');
 const formMessage   = document.getElementById('form-message');
 const listEl        = document.getElementById('complaints-list');
@@ -35,6 +46,7 @@ const listEl        = document.getElementById('complaints-list');
 // ── Filter panel elements ──────────────────────────────────
 const filterGame     = document.getElementById('filter-game');
 const filterCategory = document.getElementById('filter-category');
+const filterItem     = document.getElementById('filter-item');
 const filterRange    = document.getElementById('filter-range');
 const filterSort     = document.getElementById('filter-sort');
 const filterDevPost  = document.getElementById('filter-devpost');
@@ -44,6 +56,17 @@ const feedSortLabel  = document.getElementById('feed-sort-label');
 // ── Auth helper ───────────────────────────────────────────────
 function getCurrentUser() {
   return typeof window.getAuthUser === 'function' ? window.getAuthUser() : null;
+}
+
+// ── Item datalist — updates suggestions when game/category changes ──
+function updateItemDatalist() {
+  if (!itemDatalist || typeof window.getItemSuggestions !== 'function') return;
+  const game     = gameSelect ? gameSelect.value : '';
+  const category = catSelect  ? catSelect.value  : '';
+  const suggestions = window.getItemSuggestions(game, category);
+  itemDatalist.innerHTML = suggestions
+    .map(s => `<option value="${s.replace(/"/g, '&quot;')}">`)
+    .join('');
 }
 
 // ── Utilities ─────────────────────────────────────────────────
@@ -127,6 +150,10 @@ document.addEventListener('keydown', (e) => {
     closeModal();
   }
 });
+
+// Update item suggestions whenever game or category changes in the form
+if (gameSelect) gameSelect.addEventListener('change', updateItemDatalist);
+if (catSelect)  catSelect.addEventListener('change',  updateItemDatalist);
 
 // ── Category badge style ──────────────────────────────────────
 
@@ -277,6 +304,7 @@ function renderCard(complaint) {
         ${complaint.votes >= TOP_THRESHOLD ? '<span class="top-badge">&#9733; Top</span>' : ''}
         ${complaint.game ? '<span class="card-game-badge"></span>' : ''}
         <span class="card-category"></span>
+        ${complaint.item ? `<span class="card-item-badge">${escapeHtml(complaint.item)}</span>` : ''}
       </div>
     </div>
 
@@ -508,13 +536,15 @@ function renderCard(complaint) {
 
 function buildQueryString() {
   const params = new URLSearchParams();
-  const game     = filterGame     ? filterGame.value     : '';
-  const category = filterCategory ? filterCategory.value : '';
-  const range    = filterRange    ? filterRange.value    : 'all';
-  const sort     = filterSort     ? filterSort.value     : 'votes';
+  const game     = filterGame     ? filterGame.value           : '';
+  const category = filterCategory ? filterCategory.value       : '';
+  const item     = filterItem     ? filterItem.value.trim()    : '';
+  const range    = filterRange    ? filterRange.value          : 'all';
+  const sort     = filterSort     ? filterSort.value           : 'votes';
 
   if (game)             params.set('game', game);
   if (category)         params.set('category', category);
+  if (item)             params.set('item', item);
   if (range !== 'all')  params.set('range', range);
   if (sort !== 'votes') params.set('sort', sort);
 
@@ -526,7 +556,7 @@ function buildQueryString() {
   }
 
   if (filterPanel) {
-    const active = game || category || (range && range !== 'all') || sort === 'newest' || devActive;
+    const active = game || category || item || (range && range !== 'all') || sort === 'newest' || devActive;
     filterPanel.classList.toggle('has-filters', !!active);
   }
 
@@ -570,7 +600,8 @@ form.addEventListener('submit', async (e) => {
   const title       = titleInput.value.trim();
   const description = descInput.value.trim();
   const category    = catSelect.value;
-  const game        = gameSelect ? gameSelect.value : '';
+  const game        = gameSelect ? gameSelect.value            : '';
+  const item        = itemInput  ? itemInput.value.trim()      : '';
 
   if (!title || !description || !category) {
     showFormMessage('Please fill in all fields before submitting.', 'error');
@@ -584,7 +615,8 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch(API_BASE, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description, category, game })
+      credentials: 'include',
+      body: JSON.stringify({ title, description, category, game, item })
     });
 
     let data = {};
@@ -610,6 +642,15 @@ loadComplaints();
 [filterGame, filterCategory, filterRange, filterSort, filterDevPost].forEach(el => {
   if (el) el.addEventListener('change', loadComplaints);
 });
+
+// item filter fires on input (text field) with a short debounce
+if (filterItem) {
+  let _itemTimer;
+  filterItem.addEventListener('input', () => {
+    clearTimeout(_itemTimer);
+    _itemTimer = setTimeout(loadComplaints, 400);
+  });
+}
 
 // ── Theme toggle ───────────────────────────────────────────────
 (function initTheme() {

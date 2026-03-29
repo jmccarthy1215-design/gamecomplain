@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Call of Duty: Black Ops 6 Complaints — Game Complaints</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    :root { --accent: #78c5f7; --accent-hover: #55b0e8; }
+
+    .game-banner {
+      background: linear-gradient(150deg, #010306 0%, #020610 50%, #010408 100%);
+      border: 1px solid rgba(120, 197, 247, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-banner::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: -40px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(120,197,247,0.15) 0%, rgba(40,100,190,0.06) 40%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .game-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -50px; right: 10%;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(120,197,247,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .banner-title { color: #9ad8ff; letter-spacing: 0.03em; text-transform: uppercase; }
+    .stat-n { color: #78c5f7; }
+
+    .banner-badge {
+      display: inline-block;
+      background: rgba(120,197,247,0.1);
+      border: 1px solid rgba(120,197,247,0.35);
+      color: #88ccf8;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <script>window.NEXT_PUBLIC_API_URL = "https://gamecomplain.onrender.com";</script>
+  <script src="/config.js"></script>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/games/call-of-duty.html" class="breadcrumb-link">Call of Duty</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Black Ops 6</span>
+    </nav>
+
+    <div class="game-banner">
+      <div class="banner-badge">First-Person Shooter</div>
+      <h1 class="banner-title">Call of Duty: Black Ops 6</h1>
+      <p class="banner-sub">Omnimovement mechanics, weapon TTK, scorestreak balance, spawn logic, and ranked system complaints.</p>
+      <div class="banner-stats">
+        <div class="stat-block">
+          <div class="stat-n" id="stat-count">—</div>
+          <div class="stat-l">Complaints</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">BO6</div>
+          <div class="stat-l">Game</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">FPS</div>
+          <div class="stat-l">Genre</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-n">PC/Console</div>
+          <div class="stat-l">Platform</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="feed-section">
+      <div class="feed-bar">
+        <span class="feed-label">Black Ops 6 Issues</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading complaints…</p></div>
+    </section>
+  </div>
+
+  <script>window.PAGE_CONFIG = { game: 'Call of Duty: Black Ops 6', sort: 'votes' };</script>
+  <script src="/shared/feed.js"></script>
+</body>
+</html>

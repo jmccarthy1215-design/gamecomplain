@@ -58,13 +58,22 @@ const complaintSchema = new mongoose.Schema({
     required: [true, 'Category is required'],
     enum: {
       values: [
-        'Game Bugs',
-        'Broken Characters',
-        'Stupid Mechanics',
+        // ── New structured categories ──────────────────────────
+        'Weapons',
+        'Characters / Agents',
+        'Mechanics',
+        'Maps',
+        'Bugs / Glitches',
         'Matchmaking Issues',
         'Performance Issues',
         'Cheating / Exploits',
         'Updates / Patches',
+        'Ranked / Competitive',
+        'Skins / Cosmetics',
+        // ── Legacy categories (kept for backward compatibility) ─
+        'Game Bugs',
+        'Broken Characters',
+        'Stupid Mechanics',
         'Website Feedback',
         'Other'
       ],
@@ -77,12 +86,30 @@ const complaintSchema = new mongoose.Schema({
     default: '',
     enum: {
       values: [
-        '', 'Fortnite', 'Call of Duty', 'Minecraft', 'Valorant', 'Apex Legends',
-        'League of Legends', 'Rocket League', 'Clash Royale', 'Counter-Strike 2',
-        'Rainbow Six Siege', 'Other'
+        '',
+        // Core titles
+        'Fortnite', 'Minecraft', 'Valorant', 'Apex Legends',
+        'League of Legends', 'Rocket League', 'Clash Royale',
+        'Counter-Strike 2', 'Rainbow Six Siege',
+        // Call of Duty family
+        'Call of Duty',
+        'Call of Duty: Warzone',
+        'Call of Duty: Black Ops 6',
+        'Call of Duty: Black Ops Cold War',
+        'Call of Duty: Modern Warfare II',
+        // New additions
+        'H1Z1', 'DayZ', 'Clash of Clans',
+        'Other'
       ],
       message: 'Invalid game value.'
     }
+  },
+  // Optional: specific item being complained about (weapon, agent, map, etc.)
+  item: {
+    type:    String,
+    trim:    true,
+    default: '',
+    maxlength: [100, 'Item name cannot exceed 100 characters']
   },
   // Author info — set by server from req.user, never accepted from client
   username: {

@@ -18,7 +18,7 @@ function sanitize(str) {
 router.post('/', checkSpam, async (req, res) => {
   try {
     // Strip fields that only the server may set — clients cannot forge dev status
-    const { title, description, category, game } = req.body;
+    const { title, description, category, game, item } = req.body;
 
     if (!title || !description || !category) {
       return res.status(400).json({ error: 'Title, description, and category are required.' });
@@ -29,6 +29,7 @@ router.post('/', checkSpam, async (req, res) => {
     const sanitizedDescription = censorText(sanitize(description)).sanitizedText;
     const sanitizedCategory    = sanitize(category);
     const sanitizedGame        = sanitize(game || '');
+    const sanitizedItem        = sanitize(item || '');
 
     if (!sanitizedTitle || !sanitizedDescription || !sanitizedCategory) {
       return res.status(400).json({ error: 'Fields cannot be empty.' });
@@ -47,6 +48,7 @@ router.post('/', checkSpam, async (req, res) => {
       description: sanitizedDescription,
       category:    sanitizedCategory,
       game:        sanitizedGame,
+      item:        sanitizedItem,
       username,
       userId,
       isDevPost,
@@ -69,11 +71,12 @@ router.post('/', checkSpam, async (req, res) => {
 // Query params: game, category, range (today|week|month|all), sort (votes|newest), dev (true), userId
 router.get('/', async (req, res) => {
   try {
-    const { game, category, range, sort, dev, userId } = req.query;
+    const { game, category, item, range, sort, dev, userId } = req.query;
     const filter = {};
 
     if (game)            filter.game     = game;
     if (category)        filter.category = category;
+    if (item)            filter.item     = new RegExp(item.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
     if (dev === 'true')  filter.isDevPost = true;
     if (userId)          filter.userId   = userId;
 

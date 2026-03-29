@@ -17,13 +17,22 @@
   var TOP_THRESHOLD = 50;
 
   var CATEGORY_COLORS = {
-    'Game Bugs':           { bg:'rgba(255,107,107,.15)', border:'rgba(255,107,107,.4)', color:'#ff8787' },
-    'Broken Characters':   { bg:'rgba(255,169,77,.15)',  border:'rgba(255,169,77,.4)',  color:'#ffa94d' },
-    'Stupid Mechanics':    { bg:'rgba(255,212,59,.15)',  border:'rgba(255,212,59,.4)',  color:'#ffd43b' },
-    'Matchmaking Issues':  { bg:'rgba(105,219,124,.15)', border:'rgba(105,219,124,.4)', color:'#69db7c' },
+    // New structured categories
+    'Weapons':             { bg:'rgba(255,107,107,.15)', border:'rgba(255,107,107,.4)', color:'#ff8787' },
+    'Characters / Agents': { bg:'rgba(32,201,151,.15)',  border:'rgba(32,201,151,.4)',  color:'#20c997' },
+    'Mechanics':           { bg:'rgba(255,212,59,.15)',  border:'rgba(255,212,59,.4)',  color:'#ffd43b' },
+    'Maps':                { bg:'rgba(105,219,124,.15)', border:'rgba(105,219,124,.4)', color:'#69db7c' },
+    'Bugs / Glitches':     { bg:'rgba(255,107,107,.15)', border:'rgba(255,107,107,.4)', color:'#ff6b6b' },
+    'Matchmaking Issues':  { bg:'rgba(77,171,247,.15)',  border:'rgba(77,171,247,.4)',  color:'#74c0fc' },
     'Performance Issues':  { bg:'rgba(77,171,247,.15)',  border:'rgba(77,171,247,.4)',  color:'#74c0fc' },
     'Cheating / Exploits': { bg:'rgba(247,131,172,.15)', border:'rgba(247,131,172,.4)', color:'#f783ac' },
     'Updates / Patches':   { bg:'rgba(169,227,75,.15)',  border:'rgba(169,227,75,.4)',  color:'#a9e34b' },
+    'Ranked / Competitive':{ bg:'rgba(188,110,255,.15)', border:'rgba(188,110,255,.4)', color:'#be6cff' },
+    'Skins / Cosmetics':   { bg:'rgba(247,131,172,.15)', border:'rgba(247,131,172,.4)', color:'#f783ac' },
+    // Legacy categories
+    'Game Bugs':           { bg:'rgba(255,107,107,.15)', border:'rgba(255,107,107,.4)', color:'#ff8787' },
+    'Broken Characters':   { bg:'rgba(255,169,77,.15)',  border:'rgba(255,169,77,.4)',  color:'#ffa94d' },
+    'Stupid Mechanics':    { bg:'rgba(255,212,59,.15)',  border:'rgba(255,212,59,.4)',  color:'#ffd43b' },
     'Other':               { bg:'rgba(123,127,158,.15)', border:'rgba(123,127,158,.4)', color:'#a0a3bb' }
   };
 
@@ -91,13 +100,17 @@
       html +=
         '<select class="filter-select" id="fp-category" aria-label="Filter by category">' +
           '<option value="">All Categories</option>' +
-          '<option>Game Bugs</option>' +
-          '<option>Broken Characters</option>' +
-          '<option>Stupid Mechanics</option>' +
+          '<option>Weapons</option>' +
+          '<option>Characters / Agents</option>' +
+          '<option>Mechanics</option>' +
+          '<option>Maps</option>' +
+          '<option>Bugs / Glitches</option>' +
           '<option>Matchmaking Issues</option>' +
           '<option>Performance Issues</option>' +
           '<option>Cheating / Exploits</option>' +
           '<option>Updates / Patches</option>' +
+          '<option>Ranked / Competitive</option>' +
+          '<option>Skins / Cosmetics</option>' +
           '<option>Other</option>' +
         '</select>';
     }
@@ -337,6 +350,7 @@
     if (isTop)               badgesHtml += '<span class="top-badge">&#9733; Top</span>';
     if (complaint.game)      badgesHtml += '<span class="card-game-badge"></span>';
     badgesHtml += '<span class="card-category"></span>';
+    if (complaint.item)      badgesHtml += '<span class="card-item-badge">' + escapeHtml(complaint.item) + '</span>';
 
     var username   = complaint.username || 'Anonymous';
     var avatarChar = username.charAt(0).toUpperCase();

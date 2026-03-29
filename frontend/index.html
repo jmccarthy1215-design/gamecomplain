@@ -32,15 +32,22 @@
           <button class="nav-link">Games <span class="nav-arrow">&#9662;</span></button>
           <ul class="nav-dropdown">
             <li><a href="/games/fortnite.html" class="nav-dropdown-item">Fortnite</a></li>
-            <li><a href="/games/call-of-duty.html" class="nav-dropdown-item">Call of Duty</a></li>
             <li><a href="/games/minecraft.html" class="nav-dropdown-item">Minecraft</a></li>
             <li><a href="/games/valorant.html" class="nav-dropdown-item">Valorant</a></li>
             <li><a href="/games/apex-legends.html" class="nav-dropdown-item">Apex Legends</a></li>
             <li><a href="/games/league-of-legends.html" class="nav-dropdown-item">League of Legends</a></li>
             <li><a href="/games/rocket-league.html" class="nav-dropdown-item">Rocket League</a></li>
             <li><a href="/games/clash-royale.html" class="nav-dropdown-item">Clash Royale</a></li>
+            <li><a href="/games/clash-of-clans.html" class="nav-dropdown-item">Clash of Clans</a></li>
             <li><a href="/games/counter-strike-2.html" class="nav-dropdown-item">Counter-Strike 2</a></li>
             <li><a href="/games/rainbow-six-siege.html" class="nav-dropdown-item">Rainbow Six Siege</a></li>
+            <li><a href="/games/h1z1.html" class="nav-dropdown-item">H1Z1</a></li>
+            <li><a href="/games/dayz.html" class="nav-dropdown-item">DayZ</a></li>
+            <li class="nav-dropdown-divider"></li>
+            <li class="nav-dropdown-group">Call of Duty</li>
+            <li><a href="/games/call-of-duty.html" class="nav-dropdown-item nav-dropdown-sub">Call of Duty</a></li>
+            <li><a href="/games/call-of-duty-warzone.html" class="nav-dropdown-item nav-dropdown-sub">Warzone</a></li>
+            <li><a href="/games/call-of-duty-bo6.html" class="nav-dropdown-item nav-dropdown-sub">Black Ops 6</a></li>
           </ul>
         </div>
 
@@ -133,6 +140,66 @@
       <form id="complaint-form" novalidate>
 
         <div class="field-group">
+          <label for="c-game">Game</label>
+          <select id="c-game" name="game">
+            <option value="" selected>General / Not game-specific</option>
+            <option value="Fortnite">Fortnite</option>
+            <option value="Minecraft">Minecraft</option>
+            <option value="Valorant">Valorant</option>
+            <option value="Apex Legends">Apex Legends</option>
+            <option value="League of Legends">League of Legends</option>
+            <option value="Rocket League">Rocket League</option>
+            <option value="Clash Royale">Clash Royale</option>
+            <option value="Clash of Clans">Clash of Clans</option>
+            <option value="Counter-Strike 2">Counter-Strike 2</option>
+            <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+            <option value="H1Z1">H1Z1</option>
+            <option value="DayZ">DayZ</option>
+            <optgroup label="Call of Duty">
+              <option value="Call of Duty">Call of Duty</option>
+              <option value="Call of Duty: Warzone">Warzone</option>
+              <option value="Call of Duty: Black Ops 6">Black Ops 6</option>
+              <option value="Call of Duty: Black Ops Cold War">Black Ops Cold War</option>
+              <option value="Call of Duty: Modern Warfare II">Modern Warfare II</option>
+            </optgroup>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="c-category">Category</label>
+          <select id="c-category" name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Weapons">Weapons</option>
+            <option value="Characters / Agents">Characters / Agents</option>
+            <option value="Mechanics">Mechanics</option>
+            <option value="Maps">Maps</option>
+            <option value="Bugs / Glitches">Bugs / Glitches</option>
+            <option value="Matchmaking Issues">Matchmaking Issues</option>
+            <option value="Performance Issues">Performance Issues</option>
+            <option value="Cheating / Exploits">Cheating / Exploits</option>
+            <option value="Updates / Patches">Updates / Patches</option>
+            <option value="Ranked / Competitive">Ranked / Competitive</option>
+            <option value="Skins / Cosmetics">Skins / Cosmetics</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="c-item">Specific Item <span class="field-hint-inline">(optional)</span></label>
+          <input
+            type="text"
+            id="c-item"
+            name="item"
+            placeholder="e.g. Shotgun, Wraith, Dust II…"
+            maxlength="100"
+            list="c-item-list"
+            autocomplete="off"
+          />
+          <datalist id="c-item-list"></datalist>
+        </div>
+
+        <div class="field-group">
           <label for="c-title">Title</label>
           <input
             type="text"
@@ -156,40 +223,6 @@
             required
           ></textarea>
           <span class="field-hint">Max 1000 characters</span>
-        </div>
-
-        <div class="field-group">
-          <label for="c-game">Game</label>
-          <select id="c-game" name="game">
-            <option value="" selected>General / Not game-specific</option>
-            <option value="Fortnite">Fortnite</option>
-            <option value="Call of Duty">Call of Duty</option>
-            <option value="Minecraft">Minecraft</option>
-            <option value="Valorant">Valorant</option>
-            <option value="Apex Legends">Apex Legends</option>
-            <option value="League of Legends">League of Legends</option>
-            <option value="Rocket League">Rocket League</option>
-            <option value="Clash Royale">Clash Royale</option>
-            <option value="Counter-Strike 2">Counter-Strike 2</option>
-            <option value="Rainbow Six Siege">Rainbow Six Siege</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div class="field-group">
-          <label for="c-category">Category</label>
-          <select id="c-category" name="category" required>
-            <option value="" disabled selected>Select a category</option>
-            <option value="Game Bugs">Game Bugs</option>
-            <option value="Broken Characters">Broken Characters</option>
-            <option value="Stupid Mechanics">Stupid Mechanics</option>
-            <option value="Matchmaking Issues">Matchmaking Issues</option>
-            <option value="Performance Issues">Performance Issues</option>
-            <option value="Cheating / Exploits">Cheating / Exploits</option>
-            <option value="Updates / Patches">Updates / Patches</option>
-            <option value="Website Feedback">Website Feedback</option>
-            <option value="Other">Other</option>
-          </select>
         </div>
 
         <p id="form-message" class="form-message" aria-live="polite"></p>
@@ -220,27 +253,35 @@
       <div class="lsb-section">
         <span class="lsb-section-label">Games</span>
         <a href="/games/fortnite.html" class="lsb-link"><span class="lsb-dot" style="background:#c084fc"></span> Fortnite</a>
-        <a href="/games/call-of-duty.html" class="lsb-link"><span class="lsb-dot" style="background:#78c5f7"></span> Call of Duty</a>
         <a href="/games/minecraft.html" class="lsb-link"><span class="lsb-dot" style="background:#69db7c"></span> Minecraft</a>
         <a href="/games/valorant.html" class="lsb-link"><span class="lsb-dot" style="background:#FF4655"></span> Valorant</a>
         <a href="/games/apex-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#e85d04"></span> Apex Legends</a>
         <a href="/games/league-of-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#c89b3c"></span> League of Legends</a>
         <a href="/games/rocket-league.html" class="lsb-link"><span class="lsb-dot" style="background:#4dabf7"></span> Rocket League</a>
         <a href="/games/clash-royale.html" class="lsb-link"><span class="lsb-dot" style="background:#cc5de8"></span> Clash Royale</a>
+        <a href="/games/clash-of-clans.html" class="lsb-link"><span class="lsb-dot" style="background:#f59f00"></span> Clash of Clans</a>
         <a href="/games/counter-strike-2.html" class="lsb-link"><span class="lsb-dot" style="background:#e8b339"></span> Counter-Strike 2</a>
         <a href="/games/rainbow-six-siege.html" class="lsb-link"><span class="lsb-dot" style="background:#74c0fc"></span> Rainbow Six Siege</a>
+        <a href="/games/call-of-duty.html" class="lsb-link"><span class="lsb-dot" style="background:#78c5f7"></span> Call of Duty</a>
+        <a href="/games/call-of-duty-warzone.html" class="lsb-link"><span class="lsb-dot" style="background:#a8d8f0"></span> Warzone</a>
+        <a href="/games/h1z1.html" class="lsb-link"><span class="lsb-dot" style="background:#a9e34b"></span> H1Z1</a>
+        <a href="/games/dayz.html" class="lsb-link"><span class="lsb-dot" style="background:#8b7355"></span> DayZ</a>
       </div>
 
       <div class="lsb-section" id="lsb-categories">
         <span class="lsb-section-label">Categories</span>
         <button class="lsb-cat-btn lsb-cat-active" data-category="">All</button>
-        <button class="lsb-cat-btn" data-category="Game Bugs">Game Bugs</button>
-        <button class="lsb-cat-btn" data-category="Broken Characters">Broken Characters</button>
-        <button class="lsb-cat-btn" data-category="Stupid Mechanics">Stupid Mechanics</button>
-        <button class="lsb-cat-btn" data-category="Matchmaking Issues">Matchmaking Issues</button>
-        <button class="lsb-cat-btn" data-category="Performance Issues">Performance Issues</button>
-        <button class="lsb-cat-btn" data-category="Cheating / Exploits">Cheating / Exploits</button>
-        <button class="lsb-cat-btn" data-category="Updates / Patches">Updates / Patches</button>
+        <button class="lsb-cat-btn" data-category="Weapons">Weapons</button>
+        <button class="lsb-cat-btn" data-category="Characters / Agents">Characters / Agents</button>
+        <button class="lsb-cat-btn" data-category="Mechanics">Mechanics</button>
+        <button class="lsb-cat-btn" data-category="Maps">Maps</button>
+        <button class="lsb-cat-btn" data-category="Bugs / Glitches">Bugs / Glitches</button>
+        <button class="lsb-cat-btn" data-category="Matchmaking Issues">Matchmaking</button>
+        <button class="lsb-cat-btn" data-category="Performance Issues">Performance</button>
+        <button class="lsb-cat-btn" data-category="Cheating / Exploits">Cheating</button>
+        <button class="lsb-cat-btn" data-category="Updates / Patches">Updates</button>
+        <button class="lsb-cat-btn" data-category="Ranked / Competitive">Ranked</button>
+        <button class="lsb-cat-btn" data-category="Skins / Cosmetics">Cosmetics</button>
         <button class="lsb-cat-btn" data-category="Other">Other</button>
       </div>
 
@@ -272,29 +313,49 @@
           <select id="filter-game" class="filter-select" aria-label="Filter by game">
             <option value="">All Games</option>
             <option value="Fortnite">Fortnite</option>
-            <option value="Call of Duty">Call of Duty</option>
             <option value="Minecraft">Minecraft</option>
             <option value="Valorant">Valorant</option>
             <option value="Apex Legends">Apex Legends</option>
             <option value="League of Legends">League of Legends</option>
             <option value="Rocket League">Rocket League</option>
             <option value="Clash Royale">Clash Royale</option>
+            <option value="Clash of Clans">Clash of Clans</option>
             <option value="Counter-Strike 2">Counter-Strike 2</option>
             <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+            <option value="H1Z1">H1Z1</option>
+            <option value="DayZ">DayZ</option>
+            <optgroup label="Call of Duty">
+              <option value="Call of Duty">Call of Duty</option>
+              <option value="Call of Duty: Warzone">Warzone</option>
+              <option value="Call of Duty: Black Ops 6">Black Ops 6</option>
+              <option value="Call of Duty: Black Ops Cold War">Black Ops Cold War</option>
+              <option value="Call of Duty: Modern Warfare II">Modern Warfare II</option>
+            </optgroup>
             <option value="Other">Other</option>
           </select>
           <select id="filter-category" class="filter-select" aria-label="Filter by category">
             <option value="">All Categories</option>
-            <option value="Game Bugs">Game Bugs</option>
-            <option value="Broken Characters">Broken Characters</option>
-            <option value="Stupid Mechanics">Stupid Mechanics</option>
+            <option value="Weapons">Weapons</option>
+            <option value="Characters / Agents">Characters / Agents</option>
+            <option value="Mechanics">Mechanics</option>
+            <option value="Maps">Maps</option>
+            <option value="Bugs / Glitches">Bugs / Glitches</option>
             <option value="Matchmaking Issues">Matchmaking Issues</option>
             <option value="Performance Issues">Performance Issues</option>
             <option value="Cheating / Exploits">Cheating / Exploits</option>
             <option value="Updates / Patches">Updates / Patches</option>
-            <option value="Website Feedback">Website Feedback</option>
+            <option value="Ranked / Competitive">Ranked / Competitive</option>
+            <option value="Skins / Cosmetics">Skins / Cosmetics</option>
             <option value="Other">Other</option>
           </select>
+          <input
+            type="text"
+            id="filter-item"
+            class="filter-input"
+            placeholder="Item…"
+            maxlength="100"
+            aria-label="Filter by item"
+          />
           <select id="filter-range" class="filter-select" aria-label="Filter by date range">
             <option value="all">All Time</option>
             <option value="today">Today</option>
@@ -390,6 +451,7 @@
 
   <script>window.NEXT_PUBLIC_API_URL = "https://gamecomplain.onrender.com";</script>
   <script src="/config.js"></script>
+  <script src="/shared/games-data.js"></script>
   <script src="/shared/auth.js"></script>
   <script src="app.js"></script>
   <script src="patch-notes.js"></script>

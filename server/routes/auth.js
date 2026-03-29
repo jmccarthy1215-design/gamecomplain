@@ -99,7 +99,12 @@ router.post('/login', async (req, res) => {
 
 // POST /api/auth/logout — clear the session cookie
 router.post('/logout', (req, res) => {
-  res.clearCookie(COOKIE_NAME, { httpOnly: true, sameSite: 'strict' });
+  const isProduction = process.env.RENDER === 'true';
+  res.clearCookie(COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: isProduction ? 'none' : 'strict',
+    secure:   isProduction
+  });
   res.json({ message: 'Logged out.' });
 });
 

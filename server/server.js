@@ -1,9 +1,10 @@
 require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
-const express    = require('express');
-const mongoose   = require('mongoose');
-const path       = require('path');
+const express      = require('express');
+const mongoose     = require('mongoose');
+const path         = require('path');
 const cookieParser = require('cookie-parser');
+const cors         = require('cors');
 
 const complaintsRouter = require('./routes/complaints');
 const authRouter       = require('./routes/auth');
@@ -17,6 +18,15 @@ if (!process.env.JWT_SECRET) {
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
+
+// CORS — allow requests from the Vercel frontend
+const corsOptions = {
+  origin: 'https://gamecomplain.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // handle preflight requests for all routes
 
 // Parse incoming JSON bodies; limit size to prevent payload abuse
 app.use(express.json({ limit: '10kb' }));

@@ -22,13 +22,13 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 // CORS — allow requests from the Vercel frontend
-app.use(cors({
-  origin: [
-    'https://gamecomplain.vercel.app',
-    'https://www.gamecomplain.vercel.app'
-  ],
+const corsOptions = {
+  origin: 'https://gamecomplain.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true  // required for the JWT session cookie to be sent cross-origin
-}));
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // respond to all preflight OPTIONS requests
 
 // Parse incoming JSON bodies; limit size to prevent payload abuse
 app.use(express.json({ limit: '10kb' }));

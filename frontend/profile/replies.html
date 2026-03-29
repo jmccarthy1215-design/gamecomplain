@@ -22,8 +22,6 @@
 
   </div>
 
-  <script>window.NEXT_PUBLIC_API_URL = "https://gamecomplain.onrender.com";</script>
-  <script src="/config.js"></script>
   <script src="/shared/navbar.js"></script>
   <script src="/shared/auth.js"></script>
   <script>
@@ -108,7 +106,7 @@
     }
 
     (async function () {
-      var authRes = await fetch((window.API_URL || '') + '/api/auth/me', { credentials: 'include' });
+      var authRes = await fetch((window.API_URL || '') + '/api/auth/me');
       if (!authRes.ok) { window.location.href = '/'; return; }
       var user = await authRes.json();
 

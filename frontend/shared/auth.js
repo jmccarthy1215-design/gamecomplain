@@ -10,6 +10,13 @@
  *   5. Exposes window.openAuthModal(tab) and window.getAuthUser().
  */
 (function () {
+  // Guard against double execution.
+  // navbar.js dynamically loads this script; some pages also include it
+  // via an explicit <script> tag. Without this guard the IIFE runs twice,
+  // creating a duplicate modal overlay whose buttons have no event listeners —
+  // so clicking "Log In" in the visible (second) overlay triggers nothing.
+  if (window.openAuthModal) return;
+
   var currentUser = null;
 
   // ── Helpers ──────────────────────────────────────────────────────

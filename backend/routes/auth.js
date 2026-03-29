@@ -61,9 +61,18 @@ router.post('/register', async (req, res) => {
       const messages = Object.values(err.errors).map(e => e.message);
       return res.status(400).json({ error: messages.join(' ') });
     }
-    // Duplicate key (race condition — email uniqueness)
+    // Duplicate key error — check which field actually caused the conflict.
+    // If it's NOT the email field, a stale non-sparse index on another field
+    // (typically `username`) is the real culprit. Reporting "email already exists"
+    // in that case would be a false positive that prevents valid signups.
     if (err.code === 11000) {
-      return res.status(409).json({ error: 'An account with this email already exists.' });
+      const conflictField = err.keyPattern ? Object.keys(err.keyPattern)[0] : null;
+      if (conflictField === 'email') {
+        return res.status(409).json({ error: 'An account with this email already exists.' });
+      }
+      // Non-email conflict — likely a stale username index; server.js syncIndexes will fix it on restart
+      console.error('Unexpected duplicate key during registration:', err.keyPattern, err.keyValue);
+      return res.status(500).json({ error: 'Server error. Please try again.' });
     }
     console.error('POST /api/auth/register error:', err);
     res.status(500).json({ error: 'Server error. Please try again.' });

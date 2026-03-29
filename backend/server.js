@@ -5,6 +5,8 @@ const mongoose   = require('mongoose');
 const path       = require('path');
 const cookieParser = require('cookie-parser');
 
+const User = require('./models/User');
+
 const complaintsRouter = require('./routes/complaints');
 const authRouter       = require('./routes/auth');
 const usersRouter      = require('./routes/users');
@@ -51,8 +53,21 @@ app.get('*', (req, res) => {
 // Connect to MongoDB, then start the server only on success
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => {
+  .then(async () => {
     console.log('Connected to MongoDB');
+
+    // Sync schema-defined indexes with the live collection.
+    // This drops any stale non-sparse indexes (e.g. an old non-sparse unique index
+    // on `username` created before sparse:true was added) and recreates them to match
+    // the current schema. Without this, new registrations fail with a false E11000
+    // duplicate key error on the username field instead of the email field.
+    try {
+      await User.syncIndexes();
+      console.log('Indexes synced');
+    } catch (indexErr) {
+      console.error('Index sync error (non-fatal):', indexErr.message);
+    }
+
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}`);
     });

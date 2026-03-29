@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 3000;
 // CORS — allow requests from the Vercel frontend
 const corsOptions = {
   origin: 'https://gamecomplain.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   credentials: true
 };
 app.use(cors(corsOptions));
@@ -44,6 +44,15 @@ app.use('/api/users',      usersRouter);
 app.use('/api/legal',      legalRouter);
 app.use('/api/clips',      clipsRouter);
 
+// Health check — always responds, even when the database is unavailable.
+// Use GET /health on Render to confirm the process is alive and check DB state.
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    db: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
 // Express error handler — must have 4 params so Express recognises it as an error handler.
 // Catches errors thrown by middleware (e.g. express.json() on a malformed body)
 // and always replies with JSON so the frontend can parse the response safely.
@@ -58,16 +67,29 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
-// Connect to MongoDB, then start the server only on success
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('MongoDB connection failed:', err.message);
-    process.exit(1); // Exit so the issue is visible immediately
-  });
+// Start the HTTP server immediately so /health is reachable even when MongoDB is down
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
+
+// Connect to MongoDB — server continues running even if this fails
+async function connectDB() {
+  if (!process.env.MONGO_URI) {
+    console.error('FATAL: MONGO_URI is not set — database features will not work.');
+    return;
+  }
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('MongoDB connected successfully.');
+  } catch (err) {
+    console.error('MongoDB connection failed:');
+    console.error('  Name   :', err.name);
+    console.error('  Message:', err.message);
+    if (err.message && err.message.toLowerCase().includes('authentication failed')) {
+      console.error('  → Check your MongoDB username / password in the MONGO_URI env var.');
+    }
+    // Server stays up — /health returns db:"disconnected", API routes return 500
+  }
+}
+
+connectDB();

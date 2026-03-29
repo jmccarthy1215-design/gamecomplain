@@ -1,5 +1,12 @@
-// API base URL for cross-domain deployment.
-// Leave empty string for local dev (Express serves frontend + API on same origin).
-// For Vercel + Render split: set to your Render backend URL, e.g.:
-//   window.API_URL = 'https://your-app.onrender.com';
-window.API_URL = "https://gamecomplain.onrender.com";
+(function () {
+  // Prefer manually injected window.NEXT_PUBLIC_API_URL (set inline before this script)
+  var envUrl =
+    (typeof window !== 'undefined' && window.NEXT_PUBLIC_API_URL) || null;
+
+  // Fallback: hardcoded production backend on Render
+  var fallbackUrl = 'https://gamecomplain.onrender.com';
+
+  window.API_URL = envUrl || fallbackUrl;
+
+  console.log('API_URL:', window.API_URL);
+}());

@@ -618,6 +618,166 @@ textarea {
   font-weight: 400;
 }
 
+/* ── Game Picker (custom nested dropdown) ────────────────────
+   Inline panel (no position:absolute) so it scrolls correctly
+   inside the modal's overflow-y:auto container.
+   ─────────────────────────────────────────────────────────── */
+.game-picker {
+  position: relative;
+}
+
+.game-picker-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+.game-picker-btn:hover,
+.game-picker-btn:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.18);
+}
+
+.game-picker-chevron {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.game-picker-btn[aria-expanded="true"] .game-picker-chevron {
+  transform: rotate(180deg);
+}
+
+/* Panel — inline block (no absolute) */
+.game-picker-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 4px;
+  overflow: hidden;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.game-picker-panel.open {
+  display: block;
+}
+
+/* Individual option */
+.game-opt {
+  padding: 0.48rem 0.9rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+  user-select: none;
+}
+
+.game-opt:hover {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
+/* CoD group header */
+.game-opt-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.48rem 0.9rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+  user-select: none;
+  border-top: 1px solid var(--border);
+  margin-top: 2px;
+}
+
+.game-opt-group:hover {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
+.game-sub-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.game-opt-group.sub-open .game-sub-arrow {
+  transform: rotate(90deg);
+}
+
+/* Sub-panel (inline accordion) */
+.game-sub-panel {
+  display: none;
+  background: rgba(108, 99, 255, 0.04);
+  border-left: 2px solid var(--accent);
+  margin-left: 0.75rem;
+}
+
+.game-sub-panel.open {
+  display: block;
+}
+
+.sub-opt {
+  padding-left: 1.4rem;
+  font-size: 0.85rem;
+}
+
+/* ── Item Autocomplete ────────────────────────────────────────
+   Also inline (no absolute) for modal safety.
+   ─────────────────────────────────────────────────────────── */
+.item-ac-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The suggestion list */
+.item-ac-list {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 3px;
+  overflow: hidden;
+}
+
+.item-ac-list.open {
+  display: block;
+}
+
+.item-ac-opt {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.item-ac-opt:hover,
+.item-ac-opt.highlighted {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
 /* Form feedback */
 .form-message {
   font-size: 0.875rem;

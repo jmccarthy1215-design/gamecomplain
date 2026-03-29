@@ -38,7 +38,6 @@ const descInput     = document.getElementById('c-description');
 const catSelect     = document.getElementById('c-category');
 const gameSelect    = document.getElementById('c-game');
 const itemInput     = document.getElementById('c-item');
-const itemDatalist  = document.getElementById('c-item-list');
 const submitBtn     = document.getElementById('submit-btn');
 const formMessage   = document.getElementById('form-message');
 const listEl        = document.getElementById('complaints-list');
@@ -58,15 +57,144 @@ function getCurrentUser() {
   return typeof window.getAuthUser === 'function' ? window.getAuthUser() : null;
 }
 
-// ── Item datalist — updates suggestions when game/category changes ──
-function updateItemDatalist() {
-  if (!itemDatalist || typeof window.getItemSuggestions !== 'function') return;
-  const game     = gameSelect ? gameSelect.value : '';
-  const category = catSelect  ? catSelect.value  : '';
-  const suggestions = window.getItemSuggestions(game, category);
-  itemDatalist.innerHTML = suggestions
-    .map(s => `<option value="${s.replace(/"/g, '&quot;')}">`)
-    .join('');
+// ── Game Picker ───────────────────────────────────────────────
+// Custom nested dropdown for the complaint form.
+// CoD sub-games expand inline (accordion) to avoid overflow clipping inside the modal.
+function initGamePicker() {
+  const btn   = document.getElementById('c-game-btn');
+  const panel = document.getElementById('c-game-panel');
+  const label = document.getElementById('c-game-label');
+  if (!btn || !panel || !gameSelect) return;
+
+  function closePicker() {
+    panel.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  // Toggle the main panel
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  panel.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    // CoD group header — toggle sub-panel accordion
+    const groupHdr = e.target.closest('.game-opt-group');
+    if (groupHdr) {
+      const subId = groupHdr.dataset.group;
+      const sub   = document.getElementById(subId);
+      if (sub) {
+        const isSubOpen = sub.classList.toggle('open');
+        groupHdr.classList.toggle('sub-open', isSubOpen);
+      }
+      return;
+    }
+
+    // Selectable option (has data-value)
+    const opt = e.target.closest('.game-opt[data-value]');
+    if (!opt) return;
+
+    const value   = opt.dataset.value;
+    const display = opt.dataset.label
+      || (value === '' ? 'General / Not game-specific' : opt.textContent.trim());
+
+    gameSelect.value  = value;
+    label.textContent = display;
+    gameSelect.dispatchEvent(new Event('change'));
+    closePicker();
+  });
+
+  // Close picker on outside click
+  document.addEventListener('click', closePicker);
+}
+
+// ── Item Autocomplete ─────────────────────────────────────────
+// Inline suggestion list — no absolute positioning so it works
+// safely inside the modal's scrollable container.
+function initItemAutocomplete() {
+  const input = document.getElementById('c-item');
+  const list  = document.getElementById('c-item-ac');
+  if (!input || !list) return;
+
+  function getPool() {
+    if (typeof window.getItemSuggestions !== 'function') return [];
+    const game = gameSelect ? gameSelect.value : '';
+    const cat  = catSelect  ? catSelect.value  : '';
+    if (game && !cat && window.GAMES_DATA && window.GAMES_DATA[game]) {
+      // No category selected — return all items for the game
+      return Object.values(window.GAMES_DATA[game].categories).flat();
+    }
+    return window.getItemSuggestions(game, cat);
+  }
+
+  function renderSuggestions(query) {
+    const q = query.trim().toLowerCase();
+    if (!q) { closeList(); return; }
+
+    const filtered = getPool()
+      .filter(s => s.toLowerCase().includes(q))
+      .slice(0, 8);
+
+    if (filtered.length === 0) { closeList(); return; }
+
+    list.innerHTML = filtered
+      .map(s => `<div class="item-ac-opt" data-val="${escapeHtml(s)}">${escapeHtml(s)}</div>`)
+      .join('');
+    list.classList.add('open');
+  }
+
+  function closeList() {
+    list.innerHTML = '';
+    list.classList.remove('open');
+  }
+
+  input.addEventListener('input', () => renderSuggestions(input.value));
+
+  // mousedown fires before blur — capture click before input loses focus
+  list.addEventListener('mousedown', (e) => {
+    const opt = e.target.closest('.item-ac-opt');
+    if (!opt) return;
+    e.preventDefault();
+    input.value = opt.dataset.val;
+    closeList();
+    input.focus();
+  });
+
+  input.addEventListener('blur', () => setTimeout(closeList, 150));
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeList(); return; }
+
+    // Enter selects highlighted item or first result
+    if (e.key === 'Enter' && list.classList.contains('open')) {
+      const hl = list.querySelector('.item-ac-opt.highlighted') || list.querySelector('.item-ac-opt');
+      if (hl) { input.value = hl.dataset.val; closeList(); e.preventDefault(); }
+      return;
+    }
+
+    // Arrow key navigation through suggestions
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const opts = [...list.querySelectorAll('.item-ac-opt')];
+      if (opts.length === 0) return;
+      e.preventDefault();
+      const cur = list.querySelector('.item-ac-opt.highlighted');
+      let idx   = cur ? opts.indexOf(cur) : -1;
+      if (cur) cur.classList.remove('highlighted');
+      idx = e.key === 'ArrowDown' ? Math.min(idx + 1, opts.length - 1) : Math.max(idx - 1, 0);
+      opts[idx].classList.add('highlighted');
+      input.value = opts[idx].dataset.val;
+    }
+  });
+}
+
+// ── Clear item field on game/category change ──────────────────
+function onGameCategoryChange() {
+  if (itemInput) itemInput.value = '';
+  const acList = document.getElementById('c-item-ac');
+  if (acList) { acList.innerHTML = ''; acList.classList.remove('open'); }
 }
 
 // ── Utilities ─────────────────────────────────────────────────
@@ -128,7 +256,10 @@ window.addEventListener('authReady', e => revealOwnDeleteButtons(e.detail));
 function openModal() {
   modalOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  setTimeout(() => titleInput.focus(), 50);
+  setTimeout(() => {
+    const gameBtn = document.getElementById('c-game-btn');
+    (gameBtn || titleInput).focus();
+  }, 50);
 }
 
 function closeModal() {
@@ -151,9 +282,27 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Update item suggestions whenever game or category changes in the form
-if (gameSelect) gameSelect.addEventListener('change', updateItemDatalist);
-if (catSelect)  catSelect.addEventListener('change',  updateItemDatalist);
+// Clear item when game or category changes
+if (gameSelect) gameSelect.addEventListener('change', onGameCategoryChange);
+if (catSelect)  catSelect.addEventListener('change',  onGameCategoryChange);
+
+// Initialise custom form widgets
+initGamePicker();
+initItemAutocomplete();
+
+// Reset custom picker state when modal closes
+form.addEventListener('reset', () => {
+  const pickerLabel = document.getElementById('c-game-label');
+  if (pickerLabel) pickerLabel.textContent = 'General / Not game-specific';
+  const pickerPanel = document.getElementById('c-game-panel');
+  if (pickerPanel) pickerPanel.classList.remove('open');
+  const codSub = document.getElementById('cod-sub');
+  if (codSub) codSub.classList.remove('open');
+  const codHdr = document.getElementById('c-cod-hdr');
+  if (codHdr) codHdr.classList.remove('sub-open');
+  const acList = document.getElementById('c-item-ac');
+  if (acList) { acList.innerHTML = ''; acList.classList.remove('open'); }
+});
 
 // ── Category badge style ──────────────────────────────────────
 

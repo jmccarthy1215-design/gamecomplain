@@ -140,30 +140,42 @@
       <form id="complaint-form" novalidate>
 
         <div class="field-group">
-          <label for="c-game">Game</label>
-          <select id="c-game" name="game">
-            <option value="" selected>General / Not game-specific</option>
-            <option value="Fortnite">Fortnite</option>
-            <option value="Minecraft">Minecraft</option>
-            <option value="Valorant">Valorant</option>
-            <option value="Apex Legends">Apex Legends</option>
-            <option value="League of Legends">League of Legends</option>
-            <option value="Rocket League">Rocket League</option>
-            <option value="Clash Royale">Clash Royale</option>
-            <option value="Clash of Clans">Clash of Clans</option>
-            <option value="Counter-Strike 2">Counter-Strike 2</option>
-            <option value="Rainbow Six Siege">Rainbow Six Siege</option>
-            <option value="H1Z1">H1Z1</option>
-            <option value="DayZ">DayZ</option>
-            <optgroup label="Call of Duty">
-              <option value="Call of Duty">Call of Duty</option>
-              <option value="Call of Duty: Warzone">Warzone</option>
-              <option value="Call of Duty: Black Ops 6">Black Ops 6</option>
-              <option value="Call of Duty: Black Ops Cold War">Black Ops Cold War</option>
-              <option value="Call of Duty: Modern Warfare II">Modern Warfare II</option>
-            </optgroup>
-            <option value="Other">Other</option>
-          </select>
+          <label for="c-game-btn">Game</label>
+          <div class="game-picker" id="c-game-picker">
+            <button type="button" class="game-picker-btn" id="c-game-btn"
+                    aria-haspopup="listbox" aria-expanded="false">
+              <span id="c-game-label">General / Not game-specific</span>
+              <span class="game-picker-chevron" aria-hidden="true">▾</span>
+            </button>
+            <div class="game-picker-panel" id="c-game-panel" role="listbox">
+              <div class="game-opt" data-value="">General / Not game-specific</div>
+              <div class="game-opt" data-value="Fortnite">Fortnite</div>
+              <div class="game-opt" data-value="Minecraft">Minecraft</div>
+              <div class="game-opt" data-value="Valorant">Valorant</div>
+              <div class="game-opt" data-value="Apex Legends">Apex Legends</div>
+              <div class="game-opt" data-value="League of Legends">League of Legends</div>
+              <div class="game-opt" data-value="Rocket League">Rocket League</div>
+              <div class="game-opt" data-value="Clash Royale">Clash Royale</div>
+              <div class="game-opt" data-value="Clash of Clans">Clash of Clans</div>
+              <div class="game-opt" data-value="Counter-Strike 2">Counter-Strike 2</div>
+              <div class="game-opt" data-value="Rainbow Six Siege">Rainbow Six Siege</div>
+              <div class="game-opt" data-value="H1Z1">H1Z1</div>
+              <div class="game-opt" data-value="DayZ">DayZ</div>
+              <div class="game-opt-group" id="c-cod-hdr" data-group="cod-sub">
+                <span>Call of Duty</span>
+                <span class="game-sub-arrow" aria-hidden="true">›</span>
+              </div>
+              <div class="game-sub-panel" id="cod-sub">
+                <div class="game-opt sub-opt" data-value="Call of Duty"                   data-label="Call of Duty">General</div>
+                <div class="game-opt sub-opt" data-value="Call of Duty: Warzone"          data-label="CoD: Warzone">Warzone</div>
+                <div class="game-opt sub-opt" data-value="Call of Duty: Black Ops 6"      data-label="CoD: Black Ops 6">Black Ops 6</div>
+                <div class="game-opt sub-opt" data-value="Call of Duty: Black Ops Cold War" data-label="CoD: Cold War">Black Ops Cold War</div>
+                <div class="game-opt sub-opt" data-value="Call of Duty: Modern Warfare II" data-label="CoD: MW2">Modern Warfare II</div>
+              </div>
+              <div class="game-opt" data-value="Other">Other</div>
+            </div>
+            <input type="hidden" id="c-game" name="game" value="" />
+          </div>
         </div>
 
         <div class="field-group">
@@ -187,16 +199,17 @@
 
         <div class="field-group">
           <label for="c-item">Specific Item <span class="field-hint-inline">(optional)</span></label>
-          <input
-            type="text"
-            id="c-item"
-            name="item"
-            placeholder="e.g. Shotgun, Wraith, Dust II…"
-            maxlength="100"
-            list="c-item-list"
-            autocomplete="off"
-          />
-          <datalist id="c-item-list"></datalist>
+          <div class="item-ac-wrap" id="c-item-wrap">
+            <input
+              type="text"
+              id="c-item"
+              name="item"
+              placeholder="e.g. Vandal, Hemlok, Pump Shotgun…"
+              maxlength="100"
+              autocomplete="off"
+            />
+            <div class="item-ac-list" id="c-item-ac"></div>
+          </div>
         </div>
 
         <div class="field-group">

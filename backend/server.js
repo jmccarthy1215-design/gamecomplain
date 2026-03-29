@@ -1,9 +1,10 @@
 require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
-const express    = require('express');
-const mongoose   = require('mongoose');
-const path       = require('path');
+const express      = require('express');
+const mongoose     = require('mongoose');
+const path         = require('path');
 const cookieParser = require('cookie-parser');
+const cors         = require('cors');
 
 const User = require('./models/User');
 
@@ -19,6 +20,15 @@ if (!process.env.JWT_SECRET) {
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
+
+// CORS — allow requests from the Vercel frontend
+app.use(cors({
+  origin: [
+    'https://gamecomplain.vercel.app',
+    'https://www.gamecomplain.vercel.app'
+  ],
+  credentials: true  // required for the JWT session cookie to be sent cross-origin
+}));
 
 // Parse incoming JSON bodies; limit size to prevent payload abuse
 app.use(express.json({ limit: '10kb' }));

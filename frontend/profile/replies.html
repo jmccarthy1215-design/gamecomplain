@@ -22,6 +22,7 @@
 
   </div>
 
+  <script src="/config.js"></script>
   <script src="/shared/navbar.js"></script>
   <script src="/shared/auth.js"></script>
   <script>
@@ -106,7 +107,7 @@
     }
 
     (async function () {
-      var authRes = await fetch('/api/auth/me');
+      var authRes = await fetch((window.API_URL || '') + '/api/auth/me');
       if (!authRes.ok) { window.location.href = '/'; return; }
       var user = await authRes.json();
 

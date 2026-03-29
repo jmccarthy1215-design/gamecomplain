@@ -106,7 +106,7 @@
     }
 
     (async function () {
-      var authRes = await fetch('/api/auth/me');
+      var authRes = await fetch((window.API_URL || '') + '/api/auth/me');
       if (!authRes.ok) { window.location.href = '/'; return; }
       var user = await authRes.json();
 

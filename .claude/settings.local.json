@@ -4,7 +4,8 @@
       "Bash(node --check client/clips.html)",
       "Bash(node --check client/complain-about-us.html)",
       "Bash(cp -r /c/Users/jmcca/Documents/project-root/server /c/Users/jmcca/Documents/project-root/backend)",
-      "Bash(cp -r /c/Users/jmcca/Documents/project-root/client /c/Users/jmcca/Documents/project-root/frontend)"
+      "Bash(cp -r /c/Users/jmcca/Documents/project-root/client /c/Users/jmcca/Documents/project-root/frontend)",
+      "Bash(grep -n \"const API\\\\|var API\" /c/Users/jmcca/Documents/project-root/client/profile/*.html /c/Users/jmcca/Documents/project-root/frontend/profile/*.html)"
     ]
   }
 }

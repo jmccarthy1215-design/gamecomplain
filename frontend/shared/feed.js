@@ -128,7 +128,7 @@
       '</select>' +
       '<label class="filter-devpost-label" for="fp-devpost">' +
         '<input type="checkbox" id="fp-devpost" class="filter-devpost-check">' +
-        '<span>&#128737; From the Devs</span>' +
+        '<span>&#128737; From the Admins</span>' +
       '</label>';
 
     panel.innerHTML = html;

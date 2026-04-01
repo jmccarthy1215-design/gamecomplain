@@ -251,8 +251,6 @@
     <!-- LEFT SIDEBAR — Navigation -->
     <aside class="left-sidebar" id="left-sidebar">
 
-      <button class="lsb-post-cta" id="lsb-post-btn">+ Post Complaint</button>
-
       <nav class="lsb-nav" aria-label="Quick navigation">
         <span class="lsb-section-label">Discover</span>
         <a href="/" class="lsb-link lsb-link-active"><span class="lsb-icon">&#127968;</span> All Posts</a>
@@ -264,21 +262,26 @@
       </nav>
 
       <div class="lsb-section">
-        <span class="lsb-section-label">Games</span>
-        <a href="/games/fortnite.html" class="lsb-link"><span class="lsb-dot" style="background:#c084fc"></span> Fortnite</a>
-        <a href="/games/minecraft.html" class="lsb-link"><span class="lsb-dot" style="background:#69db7c"></span> Minecraft</a>
-        <a href="/games/valorant.html" class="lsb-link"><span class="lsb-dot" style="background:#FF4655"></span> Valorant</a>
-        <a href="/games/apex-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#e85d04"></span> Apex Legends</a>
-        <a href="/games/league-of-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#c89b3c"></span> League of Legends</a>
-        <a href="/games/rocket-league.html" class="lsb-link"><span class="lsb-dot" style="background:#4dabf7"></span> Rocket League</a>
-        <a href="/games/clash-royale.html" class="lsb-link"><span class="lsb-dot" style="background:#cc5de8"></span> Clash Royale</a>
-        <a href="/games/clash-of-clans.html" class="lsb-link"><span class="lsb-dot" style="background:#f59f00"></span> Clash of Clans</a>
-        <a href="/games/counter-strike-2.html" class="lsb-link"><span class="lsb-dot" style="background:#e8b339"></span> Counter-Strike 2</a>
-        <a href="/games/rainbow-six-siege.html" class="lsb-link"><span class="lsb-dot" style="background:#74c0fc"></span> Rainbow Six Siege</a>
-        <a href="/games/call-of-duty.html" class="lsb-link"><span class="lsb-dot" style="background:#78c5f7"></span> Call of Duty</a>
-        <a href="/games/call-of-duty-warzone.html" class="lsb-link"><span class="lsb-dot" style="background:#a8d8f0"></span> Warzone</a>
-        <a href="/games/h1z1.html" class="lsb-link"><span class="lsb-dot" style="background:#a9e34b"></span> H1Z1</a>
-        <a href="/games/dayz.html" class="lsb-link"><span class="lsb-dot" style="background:#8b7355"></span> DayZ</a>
+        <button class="lsb-section-toggle" id="lsb-games-toggle" aria-expanded="true">
+          <span class="lsb-section-label" style="padding:0">Games</span>
+          <span class="lsb-toggle-chevron">›</span>
+        </button>
+        <div id="lsb-games-list">
+          <a href="/games/fortnite.html" class="lsb-link"><span class="lsb-dot" style="background:#c084fc"></span> Fortnite</a>
+          <a href="/games/minecraft.html" class="lsb-link"><span class="lsb-dot" style="background:#69db7c"></span> Minecraft</a>
+          <a href="/games/valorant.html" class="lsb-link"><span class="lsb-dot" style="background:#FF4655"></span> Valorant</a>
+          <a href="/games/apex-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#e85d04"></span> Apex Legends</a>
+          <a href="/games/league-of-legends.html" class="lsb-link"><span class="lsb-dot" style="background:#c89b3c"></span> League of Legends</a>
+          <a href="/games/rocket-league.html" class="lsb-link"><span class="lsb-dot" style="background:#4dabf7"></span> Rocket League</a>
+          <a href="/games/clash-royale.html" class="lsb-link"><span class="lsb-dot" style="background:#cc5de8"></span> Clash Royale</a>
+          <a href="/games/clash-of-clans.html" class="lsb-link"><span class="lsb-dot" style="background:#f59f00"></span> Clash of Clans</a>
+          <a href="/games/counter-strike-2.html" class="lsb-link"><span class="lsb-dot" style="background:#e8b339"></span> Counter-Strike 2</a>
+          <a href="/games/rainbow-six-siege.html" class="lsb-link"><span class="lsb-dot" style="background:#74c0fc"></span> Rainbow Six Siege</a>
+          <a href="/games/call-of-duty.html" class="lsb-link"><span class="lsb-dot" style="background:#78c5f7"></span> Call of Duty</a>
+          <a href="/games/call-of-duty-warzone.html" class="lsb-link"><span class="lsb-dot" style="background:#a8d8f0"></span> Warzone</a>
+          <a href="/games/h1z1.html" class="lsb-link"><span class="lsb-dot" style="background:#a9e34b"></span> H1Z1</a>
+          <a href="/games/dayz.html" class="lsb-link"><span class="lsb-dot" style="background:#8b7355"></span> DayZ</a>
+        </div>
       </div>
 
       <div class="lsb-section" id="lsb-categories">
@@ -317,11 +320,16 @@
       <section class="feed-section">
         <div class="feed-bar">
           <span class="feed-label">Latest</span>
-          <span class="feed-sort" id="feed-sort-label">&#9650; Top Voted</span>
+          <div class="feed-bar-right">
+            <span class="feed-sort" id="feed-sort-label">&#9650; Top Voted</span>
+            <button class="filter-toggle-btn" id="filter-toggle-btn" aria-expanded="false" aria-controls="filter-panel">
+              Filters <span class="filter-toggle-arrow">&#9662;</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Filter bar (compact pill style) -->
-        <div class="filter-panel" id="filter-panel">
+        <!-- Filter bar — hidden until "Filters" button clicked -->
+        <div class="filter-panel" id="filter-panel" style="display:none">
           <span class="filter-label">Filter:</span>
           <select id="filter-game" class="filter-select" aria-label="Filter by game">
             <option value="">All Games</option>
@@ -463,11 +471,43 @@
   </div><!-- /page-layout -->
 
   <script>window.NEXT_PUBLIC_API_URL = "https://gamecomplain.onrender.com";</script>
+  <!-- TODO: Replace with your Google OAuth Client ID from Google Cloud Console -->
+  <script>window.NEXT_PUBLIC_GOOGLE_CLIENT_ID = "";</script>
   <script src="/config.js"></script>
   <script src="/shared/games-data.js"></script>
   <script src="/shared/auth.js"></script>
   <script src="app.js"></script>
   <script src="patch-notes.js"></script>
   <script src="sidebar.js"></script>
+  <script>
+    // ── Collapsible Games section in left sidebar ──
+    (function () {
+      var toggle = document.getElementById('lsb-games-toggle');
+      var list   = document.getElementById('lsb-games-list');
+      if (!toggle || !list) return;
+      toggle.addEventListener('click', function () {
+        var collapsed = list.classList.toggle('lsb-list-collapsed');
+        toggle.setAttribute('aria-expanded', String(!collapsed));
+      });
+    }());
+
+    // ── Filters dropdown toggle ──
+    (function () {
+      var btn   = document.getElementById('filter-toggle-btn');
+      var panel = document.getElementById('filter-panel');
+      if (!btn || !panel) return;
+      btn.addEventListener('click', function () {
+        var open = panel.style.display !== 'none';
+        panel.style.display = open ? 'none' : '';
+        btn.setAttribute('aria-expanded', String(!open));
+        btn.classList.toggle('filter-toggle-active', !open);
+      });
+      // Mirror has-filters onto the toggle button for the active dot
+      var mo = new MutationObserver(function () {
+        btn.classList.toggle('has-filters', panel.classList.contains('has-filters'));
+      });
+      mo.observe(panel, { attributes: true, attributeFilter: ['class'] });
+    }());
+  </script>
 </body>
 </html>

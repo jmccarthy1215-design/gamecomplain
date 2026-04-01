@@ -8,5 +8,9 @@
 
   window.API_URL = envUrl || fallbackUrl;
 
+  // Google OAuth Client ID — set window.NEXT_PUBLIC_GOOGLE_CLIENT_ID before this script
+  window.GOOGLE_CLIENT_ID =
+    (typeof window !== 'undefined' && window.NEXT_PUBLIC_GOOGLE_CLIENT_ID) || '';
+
   console.log('API_URL:', window.API_URL);
 }());

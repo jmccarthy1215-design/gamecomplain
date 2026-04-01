@@ -56,15 +56,16 @@ router.get('/', async (req, res) => {
     }
 
     const sortOrder = sort === 'likes' ? { likes: -1, createdAt: -1 } : { createdAt: -1 };
-    const clips = await Clip.find(filter).sort(sortOrder).select('-userLikes');
+    const clips = await Clip.find(filter).sort(sortOrder);
 
-    // Attach myLike flag
+    // Attach myLike flag then strip userLikes from the response payload
     const uid = req.user ? String(req.user._id) : null;
     const result = clips.map(c => {
       const obj = c.toObject();
       obj.myLike = uid
-        ? c.userLikes.some(id => String(id) === uid)
+        ? (c.userLikes || []).some(id => String(id) === uid)
         : false;
+      delete obj.userLikes;
       return obj;
     });
 

@@ -9,7 +9,8 @@
       "Bash(while read:*)",
       "Bash(do if:*)",
       "Bash(! grep:*)",
-      "Bash(then sed:*)"
+      "Bash(then sed:*)",
+      "Bash(ls:*)"
     ]
   }
 }

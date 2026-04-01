@@ -218,6 +218,25 @@ router.post('/:id/reply', checkSpam, async (req, res) => {
   }
 });
 
+// PATCH /api/complaints/:id/replies/:replyId/like — increment like count on a reply (no auth required)
+router.patch('/:id/replies/:replyId/like', async (req, res) => {
+  try {
+    const complaint = await Complaint.findOneAndUpdate(
+      { _id: req.params.id, 'replies._id': req.params.replyId },
+      { $inc: { 'replies.$.likes': 1 } },
+      { new: true }
+    );
+    if (!complaint) return res.status(404).json({ error: 'Reply not found.' });
+
+    const reply = complaint.replies.id(req.params.replyId);
+    res.json({ likes: reply ? reply.likes : 1 });
+  } catch (err) {
+    if (err.name === 'CastError') return res.status(400).json({ error: 'Invalid ID.' });
+    console.error('PATCH /api/complaints/:id/replies/:replyId/like error:', err);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
 // DELETE /api/complaints/:id/replies/:replyId — remove a reply (owner or admin)
 router.delete('/:id/replies/:replyId', requireAuth, async (req, res) => {
   try {

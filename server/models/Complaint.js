@@ -30,6 +30,10 @@ const replySchema = new mongoose.Schema({
     type:    mongoose.Schema.Types.ObjectId,
     default: null
   },
+  likes: {
+    type:    Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now

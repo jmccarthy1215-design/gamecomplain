@@ -342,6 +342,7 @@ function renderRepliesInto(container, replies, complaintId) {
       (isDev ? `<div class="reply-dev-header"><span class="dev-reply-badge">&#128737; ${escapeHtml(reply.developerTag)}</span></div>` : '') +
       `<p class="reply-text">${escapeHtml(reply.text)}</p>` +
       `<div class="reply-footer">` +
+        `<span class="reply-author">&#128100; ${escapeHtml(reply.username || 'Anonymous')}</span>` +
         `<p class="reply-date">${formatDate(reply.createdAt)}</p>` +
         `<button class="reply-like-btn${hasLiked ? ' liked' : ''}" ` +
                 `data-complaint-id="${escapeHtml(complaintId)}" ` +
@@ -585,7 +586,12 @@ function renderCard(complaint) {
         (isDev ? `<div class="reply-dev-header"><span class="dev-reply-badge">&#128737; ${escapeHtml(data.developerTag)}</span></div>` : '') +
         `<p class="reply-text">${escapeHtml(data.text)}</p>` +
         `<div class="reply-footer">` +
+          `<span class="reply-author">&#128100; ${escapeHtml(data.username || 'Anonymous')}</span>` +
           `<p class="reply-date">${formatDate(data.createdAt)}</p>` +
+          `<button class="reply-like-btn" ` +
+                  `data-complaint-id="${escapeHtml(id)}" ` +
+                  `data-reply-id="${escapeHtml(data._id)}" ` +
+                  `aria-label="Like reply">&#9829; <span class="reply-like-count">0</span></button>` +
           `<button class="reply-delete-btn${isOwn ? ' own-delete-visible' : ''}" ` +
                   `data-complaint-id="${escapeHtml(id)}" ` +
                   `data-reply-id="${escapeHtml(data._id)}" ` +

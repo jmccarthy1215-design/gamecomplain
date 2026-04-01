@@ -205,15 +205,18 @@
 
   // ── Navbar update ─────────────────────────────────────────────────
   function updateNavbar(user) {
-    var loginLink = document.querySelector('.nav-login-btn');
-    var ddName    = document.querySelector('.profile-dd-name');
-    var ddSub     = document.querySelector('.profile-dd-sub');
+    // is-logged-in drives CSS show/hide of mobile hamburger auth links
+    document.documentElement.classList.toggle('is-logged-in', !!user);
+
+    var loginLinks = document.querySelectorAll('.nav-login-btn');
+    var ddName     = document.querySelector('.profile-dd-name');
+    var ddSub      = document.querySelector('.profile-dd-sub');
 
     if (user) {
       // ── Role class on <html> — CSS uses this to show/hide admin-only UI ──
       document.documentElement.classList.toggle('is-admin', user.role === 'admin');
 
-      if (loginLink) loginLink.style.display = 'none';
+      loginLinks.forEach(function (el) { el.style.display = 'none'; });
 
       if (ddName) {
         // displayName is the public name; fall back to username for legacy accounts
@@ -234,24 +237,15 @@
       }
     } else {
       document.documentElement.classList.remove('is-admin');
-      if (loginLink) loginLink.style.display = '';
+      loginLinks.forEach(function (el) { el.style.display = ''; });
       if (ddName) ddName.textContent = 'Guest User';
       if (ddSub)  ddSub.textContent  = 'Sign in to save your posts';
     }
 
-    // Show logout only when authenticated
-    var logoutEl = document.querySelector('.profile-logout');
-    if (logoutEl) logoutEl.style.display = user ? '' : 'none';
-
-    // Wire logout button (idempotent: removes old listener by replacing element)
-    if (logoutEl) {
-      var clone = logoutEl.cloneNode(true);
-      logoutEl.parentNode.replaceChild(clone, logoutEl);
-      clone.addEventListener('click', function (e) {
-        e.preventDefault();
-        doLogout();
-      });
-    }
+    // Show logout only when authenticated (handles all .profile-logout elements)
+    document.querySelectorAll('.profile-logout').forEach(function (el) {
+      el.style.display = user ? '' : 'none';
+    });
   }
 
   // ── Wire "Login / Sign Up" navbar button ──────────────────────────
@@ -262,6 +256,16 @@
     if (el) {
       e.preventDefault();
       openModal('login');
+    }
+  });
+
+  // ── Wire logout via event delegation ──────────────────────────────
+  // Handles all .profile-logout elements (profile dropdown + mobile hamburger)
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('.profile-logout');
+    if (el) {
+      e.preventDefault();
+      doLogout();
     }
   });
 

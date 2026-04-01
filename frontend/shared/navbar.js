@@ -69,6 +69,10 @@
         '<a href="/complain-about-us.html" class="nav-link">&#128172; Complain About Us</a>' +
         '<button class="nav-post-btn" id="nav-post-btn">+ Post Complaint</button>' +
 
+        /* Mobile-only auth links — hidden on desktop via CSS */
+        '<a href="#" class="nav-link nav-login-btn nav-mobile-only-auth">&#128275;&nbsp; Login / Sign Up</a>' +
+        '<a href="#" class="nav-link profile-logout nav-mobile-only-auth" style="display:none">&#128682;&nbsp; Logout</a>' +
+
       '</div>' + /* /nav-menu */
 
       /* Auth section — always visible, not inside the hamburger drawer */

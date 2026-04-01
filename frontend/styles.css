@@ -1325,15 +1325,11 @@ button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
 .profile-logout { color: var(--error) !important; }
 .profile-logout:hover { background: rgba(255, 95, 109, 0.08) !important; }
 
-/* Mobile: keep login button visible but compact; hide theme toggle to make room */
+/* Mobile-only auth links (login/logout inside hamburger drawer) — hidden on desktop */
+.nav-mobile-only-auth { display: none; }
+
 @media (max-width: 520px) {
   .nav-auth { gap: 0.3rem; }
-  .nav-login-btn {
-    font-size: 0.72rem;
-    padding: 0.28rem 0.5rem;
-    letter-spacing: 0;
-  }
-  .theme-toggle { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -1342,6 +1338,18 @@ button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
     right: 0;
     width: min(230px, calc(100vw - 2rem));
   }
+  /* Reduce brand to prevent overflow on small screens */
+  .nav-brand { font-size: 0.9rem; }
+  /* Tighter inner padding on mobile */
+  .nav-inner { padding: 0 0.5rem; }
+  /* Login button lives in the hamburger drawer on mobile */
+  .nav-auth .nav-login-btn { display: none; }
+  /* Theme toggle hidden on mobile to save nav row space */
+  .theme-toggle { display: none; }
+  /* Avatar hidden when not logged in (nothing useful to show) */
+  html:not(.is-logged-in) .nav-auth .nav-avatar { display: none; }
+  /* Show mobile-only auth links inside the hamburger drawer */
+  .nav-mobile-only-auth { display: flex; }
 }
 
 /* ═══════════════════════════════════════════════════════════

@@ -1327,6 +1327,8 @@ button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Mobile-only auth links (login/logout inside hamburger drawer) — hidden on desktop */
 .nav-mobile-only-auth { display: none; }
+/* Wrapper for mobile auth CTA — hidden on desktop */
+.nav-mobile-auth-header { display: none; }
 
 @media (max-width: 520px) {
   .nav-auth { gap: 0.3rem; }
@@ -1350,6 +1352,53 @@ button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
   html:not(.is-logged-in) .nav-auth .nav-avatar { display: none; }
   /* Show mobile-only auth links inside the hamburger drawer */
   .nav-mobile-only-auth { display: flex; }
+
+  /* ── Mobile auth CTA header (top of hamburger drawer) ───── */
+  .nav-mobile-auth-header {
+    display: block;
+    padding: 1rem;
+    border-bottom: 2px solid var(--border);
+    background: rgba(108, 99, 255, 0.04);
+  }
+
+  /* Base CTA style (shared by login + logout) */
+  .nav-mobile-auth-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: background var(--transition), box-shadow var(--transition);
+  }
+
+  /* Login CTA — accent purple */
+  .nav-login-btn.nav-mobile-auth-cta {
+    background: var(--accent);
+    color: #fff !important;
+  }
+  .nav-login-btn.nav-mobile-auth-cta:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 14px rgba(108, 99, 255, 0.4);
+  }
+
+  /* Logout CTA — subtle red */
+  .profile-logout.nav-mobile-auth-cta {
+    background: rgba(255, 95, 109, 0.1);
+    color: var(--error) !important;
+    border: 1px solid rgba(255, 95, 109, 0.3);
+  }
+  .profile-logout.nav-mobile-auth-cta:hover {
+    background: rgba(255, 95, 109, 0.18) !important;
+    box-shadow: none;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════

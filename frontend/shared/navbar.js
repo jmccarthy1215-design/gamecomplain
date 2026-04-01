@@ -31,6 +31,12 @@
       /* Main menu (collapses to drawer on mobile) */
       '<div class="nav-menu" id="nav-menu">' +
 
+        /* Mobile-only auth CTA — pinned at top of hamburger drawer */
+        '<div class="nav-mobile-auth-header">' +
+          '<a href="#" class="nav-login-btn nav-mobile-only-auth nav-mobile-auth-cta">&#128275;&nbsp; Login / Sign Up</a>' +
+          '<a href="#" class="profile-logout nav-mobile-only-auth nav-mobile-auth-cta" style="display:none">&#128682;&nbsp; Logout</a>' +
+        '</div>' +
+
         '<div class="nav-item has-dropdown">' +
           '<button class="nav-link" id="nav-games">Games <span class="nav-arrow">&#9662;</span></button>' +
           '<ul class="nav-dropdown">' +
@@ -69,9 +75,6 @@
         '<a href="/complain-about-us.html" class="nav-link">&#128172; Complain About Us</a>' +
         '<button class="nav-post-btn" id="nav-post-btn">+ Post Complaint</button>' +
 
-        /* Mobile-only auth links — hidden on desktop via CSS */
-        '<a href="#" class="nav-link nav-login-btn nav-mobile-only-auth">&#128275;&nbsp; Login / Sign Up</a>' +
-        '<a href="#" class="nav-link profile-logout nav-mobile-only-auth" style="display:none">&#128682;&nbsp; Logout</a>' +
 
       '</div>' + /* /nav-menu */
 

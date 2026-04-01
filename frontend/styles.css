@@ -1325,9 +1325,15 @@ button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
 .profile-logout { color: var(--error) !important; }
 .profile-logout:hover { background: rgba(255, 95, 109, 0.08) !important; }
 
-/* Mobile: condense auth section */
+/* Mobile: keep login button visible but compact; hide theme toggle to make room */
 @media (max-width: 520px) {
-  .nav-login-btn { display: none; }
+  .nav-auth { gap: 0.3rem; }
+  .nav-login-btn {
+    font-size: 0.72rem;
+    padding: 0.28rem 0.5rem;
+    letter-spacing: 0;
+  }
+  .theme-toggle { display: none; }
 }
 
 @media (max-width: 768px) {

@@ -11,7 +11,8 @@
       "Bash(! grep:*)",
       "Bash(then sed:*)",
       "Bash(ls:*)",
-      "Bash(\"/c/Users/jmcca/Documents/project-root/claude-history.txt\":*)"
+      "Bash(\"/c/Users/jmcca/Documents/project-root/claude-history.txt\":*)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

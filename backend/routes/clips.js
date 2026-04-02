@@ -30,11 +30,11 @@ function toEmbedUrl(raw) {
 
   // Twitch clip: https://clips.twitch.tv/SLUG
   const twitchClip = url.match(/clips\.twitch\.tv\/([\w-]+)/);
-  if (twitchClip) return `https://clips.twitch.tv/embed?clip=${twitchClip[1]}&parent=localhost`;
+  if (twitchClip) return `https://clips.twitch.tv/embed?clip=${twitchClip[1]}&parent=gamecomplain.com&parent=gamecomplain.vercel.app`;
 
   // Twitch channel clip URL
   const twitchChan = url.match(/twitch\.tv\/\w+\/clip\/([\w-]+)/);
-  if (twitchChan) return `https://clips.twitch.tv/embed?clip=${twitchChan[1]}&parent=localhost`;
+  if (twitchChan) return `https://clips.twitch.tv/embed?clip=${twitchChan[1]}&parent=gamecomplain.com&parent=gamecomplain.vercel.app`;
 
   return null; // unsupported provider
 }

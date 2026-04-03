@@ -19,9 +19,13 @@ if (!process.env.JWT_SECRET) {
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-// CORS — allow requests from the Vercel frontend
+// CORS — allow requests from the Vercel frontend and custom domain
 const corsOptions = {
-  origin: 'https://gamecomplain.vercel.app',
+  origin: [
+    'https://gamecomplain.com',
+    'https://www.gamecomplain.com',
+    'https://gamecomplain.vercel.app'
+  ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   credentials: true
 };

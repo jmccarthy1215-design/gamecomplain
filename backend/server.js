@@ -13,6 +13,7 @@ const authRouter       = require('./routes/auth');
 const usersRouter      = require('./routes/users');
 const legalRouter      = require('./routes/legal');
 const clipsRouter      = require('./routes/clips');
+const tipsRouter       = require('./routes/tips');
 
 if (!process.env.JWT_SECRET) {
   console.error('FATAL: JWT_SECRET is not set in .env — authentication will not work.');
@@ -49,6 +50,7 @@ app.use('/api/complaints', complaintsRouter);
 app.use('/api/users',      usersRouter);
 app.use('/api/legal',      legalRouter);
 app.use('/api/clips',      clipsRouter);
+app.use('/api/tips',       tipsRouter);
 
 // Health check — always responds, even when the database is unavailable.
 // Use GET /health on Render to confirm the process is alive and check DB state.

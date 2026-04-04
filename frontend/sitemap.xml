@@ -148,6 +148,11 @@
 
   <!-- Other Pages -->
   <url>
+    <loc>https://gamecomplain.com/tips</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://gamecomplain.com/clips</loc>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

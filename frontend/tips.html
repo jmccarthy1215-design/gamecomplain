@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Tips &amp; Strategies — GameComplain</title>
+  <meta name="description" content="Browse and share gaming tips on GameComplain — strategies, weapon guides, character tips, map knowledge, and bug workarounds for Fortnite, Valorant, CS2, and more." />
+  <link rel="canonical" href="https://gamecomplain.com/tips" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gamecomplain.com/tips" />
+  <meta property="og:site_name" content="GameComplain" />
+  <meta property="og:title" content="Game Tips &amp; Strategies — GameComplain" />
+  <meta property="og:description" content="Browse and share gaming tips on GameComplain — strategies, weapon guides, character tips, map knowledge, and bug workarounds for Fortnite, Valorant, CS2, and more." />
+  <meta property="og:image" content="https://gamecomplain.com/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Game Tips &amp; Strategies — GameComplain" />
+  <meta name="twitter:description" content="Browse and share gaming tips on GameComplain — strategies, weapon guides, character tips, map knowledge, and bug workarounds for Fortnite, Valorant, CS2, and more." />
+  <meta name="twitter:image" content="https://gamecomplain.com/og-image.png" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-mode');</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <style>
+    /* ── Tips page hero ──────────────────────────────────── */
+    .tips-hero {
+      background: linear-gradient(135deg, #0c0e1c 0%, #111829 50%, #0c0e1c 100%);
+      border: 1px solid rgba(108, 99, 255, 0.25);
+      border-radius: 12px;
+      padding: 2.5rem 2rem 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .tips-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(108,99,255,.07), transparent);
+      pointer-events: none;
+    }
+    .tips-hero-icon { font-size: 2.4rem; display: block; margin-bottom: 0.4rem; }
+    .tips-hero h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 0.5rem;
+    }
+    .tips-hero .tips-subtitle {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin: 0 auto 1.5rem;
+      max-width: 540px;
+      line-height: 1.5;
+    }
+    .tips-post-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.35rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .tips-post-btn:hover  { background: var(--accent-hover, #5a52d5); }
+    .tips-post-btn:active { transform: scale(0.97); }
+
+    /* ── Search bar ──────────────────────────────────────── */
+    .tips-search-wrap { margin-bottom: 0.75rem; }
+    .tips-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.55rem 0.85rem;
+      transition: border-color 0.15s;
+    }
+    .tips-search-bar:focus-within { border-color: var(--accent); }
+    .tips-search-icon { font-size: 1rem; color: var(--text-muted); flex-shrink: 0; }
+    .tips-search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 0.93rem;
+      min-width: 0;
+    }
+    .tips-search-input::placeholder { color: var(--text-muted); }
+    /* Remove browser's default search-cancel button so our custom one shows */
+    .tips-search-input::-webkit-search-cancel-button { display: none; }
+    .tips-search-clear {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      line-height: 1;
+      transition: color 0.15s, background 0.15s;
+    }
+    .tips-search-clear:hover { color: var(--text); background: rgba(255,255,255,.07); }
+
+    /* ── Tip modal accent ────────────────────────────────── */
+    #tip-modal-overlay .modal-header h2 { color: #a78bfa; }
+
+    /* ── Responsive tweaks ───────────────────────────────── */
+    @media (max-width: 600px) {
+      .tips-hero { padding: 1.75rem 1.25rem 1.5rem; }
+      .tips-hero h1 { font-size: 1.5rem; }
+      .tips-search-input { font-size: 0.87rem; }
+    }
+  </style>
+</head>
+<body>
+  <script>window.NEXT_PUBLIC_API_URL = "https://gamecomplain.onrender.com";</script>
+  <script src="/config.js"></script>
+  <script src="/shared/navbar.js"></script>
+
+  <!-- ── Post Tip modal ──────────────────────────────────── -->
+  <div id="tip-modal-overlay" class="modal-overlay hidden"
+       role="dialog" aria-modal="true" aria-labelledby="tip-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="tip-modal-title">&#128161; Post a Tip</h2>
+        <button class="modal-close" id="tip-modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="tip-form" novalidate>
+
+        <div class="field-group">
+          <label for="t-game">Game</label>
+          <select id="t-game" name="game">
+            <option value="">General / Not game-specific</option>
+            <option value="Fortnite">Fortnite</option>
+            <option value="Minecraft">Minecraft</option>
+            <option value="Valorant">Valorant</option>
+            <option value="Apex Legends">Apex Legends</option>
+            <option value="League of Legends">League of Legends</option>
+            <option value="Rocket League">Rocket League</option>
+            <option value="Clash Royale">Clash Royale</option>
+            <option value="Clash of Clans">Clash of Clans</option>
+            <option value="Counter-Strike 2">Counter-Strike 2</option>
+            <option value="Rainbow Six Siege">Rainbow Six Siege</option>
+            <option value="Call of Duty">Call of Duty</option>
+            <option value="Call of Duty: Warzone">Warzone</option>
+            <option value="Call of Duty: Black Ops 6">Black Ops 6</option>
+            <option value="H1Z1">H1Z1</option>
+            <option value="DayZ">DayZ</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="t-category">Category</label>
+          <select id="t-category" name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Strategy">Strategy</option>
+            <option value="Weapon Tip">Weapon Tip</option>
+            <option value="Character Guide">Character Guide</option>
+            <option value="Map Knowledge">Map Knowledge</option>
+            <option value="Bug Workaround">Bug Workaround</option>
+            <option value="Settings">Settings</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="t-item">Specific Item <span class="field-hint-inline">(optional)</span></label>
+          <input
+            type="text"
+            id="t-item"
+            name="item"
+            placeholder="e.g. Vandal, Jett, Dust2, 120 Hz settings…"
+            maxlength="100"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="t-title">Title</label>
+          <input
+            type="text"
+            id="t-title"
+            name="title"
+            placeholder="Short, descriptive tip title"
+            maxlength="100"
+            required
+          />
+          <span class="field-hint">Max 100 characters</span>
+        </div>
+
+        <div class="field-group">
+          <label for="t-description">Tip Content</label>
+          <textarea
+            id="t-description"
+            name="description"
+            placeholder="Share your tip in detail — the more specific and actionable, the better!"
+            maxlength="1000"
+            rows="5"
+            required
+          ></textarea>
+          <span class="field-hint">Max 1000 characters</span>
+        </div>
+
+        <p id="tip-form-message" class="form-message" aria-live="polite"></p>
+        <button type="submit" id="tip-submit-btn">Post Tip</button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Page content ─────────────────────────────────────── -->
+  <div class="container">
+
+    <!-- Hero -->
+    <div class="tips-hero">
+      <span class="tips-hero-icon">&#128161;</span>
+      <h1>Game Tips &amp; Strategies</h1>
+      <p class="tips-subtitle">
+        Share strategies, weapon guides, character tips, map knowledge, and bug workarounds
+        with the GameComplain community. Search by keyword to find exactly what you need.
+      </p>
+      <button class="tips-post-btn" id="tips-post-cta-btn">&#43; Post a Tip</button>
+    </div>
+
+    <!-- Feed — search bar and filter panel injected here by tips-feed.js -->
+    <section class="feed-section" aria-label="Tips feed">
+      <div class="feed-bar">
+        <span class="feed-label">&#128161; Tips</span>
+        <span class="feed-sort">&#9650; Top Voted</span>
+      </div>
+      <div id="complaints-list"><p class="loading-text">Loading tips…</p></div>
+    </section>
+
+  </div>
+
+  <!-- Modal open/close and form submission logic -->
+  <script>
+  (function () {
+    var overlay   = document.getElementById('tip-modal-overlay');
+    var closeBtn  = document.getElementById('tip-modal-close');
+    var form      = document.getElementById('tip-form');
+    var msgEl     = document.getElementById('tip-form-message');
+    var submitBtn = document.getElementById('tip-submit-btn');
+    var ctaBtn    = document.getElementById('tips-post-cta-btn');
+
+    function openTipModal() {
+      overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function () { document.getElementById('t-title').focus(); }, 50);
+    }
+
+    function closeTipModal() {
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+      form.reset();
+      msgEl.textContent = '';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Post Tip';
+    }
+
+    // Expose so tips-feed.js empty-state link and navbar can call it
+    window.openTipModal = openTipModal;
+
+    ctaBtn.addEventListener('click', openTipModal);
+    closeBtn.addEventListener('click', closeTipModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeTipModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeTipModal();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      msgEl.textContent = '';
+
+      var title       = document.getElementById('t-title').value.trim();
+      var description = document.getElementById('t-description').value.trim();
+      var category    = document.getElementById('t-category').value;
+      var game        = document.getElementById('t-game').value;
+      var item        = document.getElementById('t-item').value.trim();
+
+      if (!title)       { msgEl.textContent = 'Title is required.';            return; }
+      if (!description) { msgEl.textContent = 'Tip content is required.';      return; }
+      if (!category)    { msgEl.textContent = 'Please select a category.';     return; }
+
+      submitBtn.disabled    = true;
+      submitBtn.textContent = 'Posting…';
+
+      var apiUrl = (window.API_URL || '') + '/api/tips';
+
+      fetch(apiUrl, {
+        method:      'POST',
+        headers:     { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ title: title, description: description, category: category, game: game, item: item })
+      })
+      .then(function (res) {
+        return res.json().then(function (d) { return { ok: res.ok, data: d }; });
+      })
+      .then(function (result) {
+        if (!result.ok) {
+          msgEl.textContent = result.data.error || 'Failed to post tip. Please try again.';
+          submitBtn.disabled    = false;
+          submitBtn.textContent = 'Post Tip';
+          return;
+        }
+        closeTipModal();
+        if (typeof window.refreshTipsFeed === 'function') window.refreshTipsFeed();
+      })
+      .catch(function () {
+        msgEl.textContent     = 'Network error. Please check your connection and try again.';
+        submitBtn.disabled    = false;
+        submitBtn.textContent = 'Post Tip';
+      });
+    });
+  }());
+  </script>
+
+  <script>window.PAGE_CONFIG = { sort: 'votes' };</script>
+  <script src="/shared/tips-feed.js"></script>
+
+</body>
+</html>

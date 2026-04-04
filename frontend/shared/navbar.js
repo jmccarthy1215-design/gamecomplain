@@ -71,6 +71,7 @@
           '</ul>' +
         '</div>' +
 
+        '<a href="/tips.html" class="nav-link" id="nav-tips">&#128161; Tips</a>' +
         '<a href="/clips.html" class="nav-link">&#127909; Clips</a>' +
         '<a href="/complain-about-us.html" class="nav-link">&#128172; Complain About Us</a>' +
         '<button class="nav-post-btn" id="nav-post-btn">+ Post Complaint</button>' +
@@ -195,7 +196,8 @@
   var sectionMap = {
     '/games/': 'nav-games',
     '/top/':   'nav-top',
-    '/rated/': 'nav-rated'
+    '/rated/': 'nav-rated',
+    '/tips':   'nav-tips'
   };
   Object.keys(sectionMap).forEach(function (prefix) {
     if (path.startsWith(prefix)) {

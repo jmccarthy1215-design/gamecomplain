@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Block user profile and settings pages (dynamic/private content)
+Disallow: /profile/
+
+# Block API routes if they are ever accidentally accessible via frontend
+Disallow: /api/
+
+Sitemap: https://gamecomplain.com/sitemap.xml

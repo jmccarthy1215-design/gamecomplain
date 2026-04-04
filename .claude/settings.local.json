@@ -19,7 +19,14 @@
       "WebFetch(domain:www.similarweb.com)",
       "WebFetch(domain:www.lookkle.com)",
       "Bash(node -e \"try { require\\(''./backend/routes/tips''\\); console.log\\(''tips.js loaded OK''\\); } catch\\(e\\) { console.error\\(''LOAD ERROR:'', e.message\\); }\")",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(curl -s \"https://gamecomplain.onrender.com/api/tips\")",
+      "Bash(curl:*)",
+      "Bash(node --check backend/routes/tips.js)",
+      "Bash(node --check backend/models/Tip.js)",
+      "Bash(python3:*)",
+      "Bash(python:*)",
+      "Bash(node:*)"
     ]
   }
 }

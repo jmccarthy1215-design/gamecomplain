@@ -16,6 +16,7 @@ function sanitize(str) {
 
 // POST /api/tips — create a new tip
 router.post('/', checkSpam, async (req, res) => {
+  console.log('TIPS ROUTE HIT — POST /api/tips');
   try {
     const { title, description, category, game, item } = req.body;
 
@@ -66,6 +67,7 @@ router.post('/', checkSpam, async (req, res) => {
 // Query params: game, category, item, range (today|week|month|all), sort (votes|newest),
 //               dev (true), userId, search (keyword match on title + description)
 router.get('/', async (req, res) => {
+  console.log('TIPS ROUTE HIT — GET /api/tips');
   try {
     const { game, category, item, range, sort, dev, userId, search } = req.query;
     const filter = {};

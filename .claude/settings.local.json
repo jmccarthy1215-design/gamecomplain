@@ -14,7 +14,10 @@
       "Bash(\"/c/Users/jmcca/Documents/project-root/claude-history.txt\":*)",
       "Bash(xargs grep:*)",
       "Bash(find /c/Users/jmcca/Documents/project-root -type d -not -path */node_modules/* -not -path */.git/* -not -path */.claude/*)",
-      "Bash(grep -E \"\\\\.\\(js|css\\)$\")"
+      "Bash(grep -E \"\\\\.\\(js|css\\)$\")",
+      "WebSearch",
+      "WebFetch(domain:www.similarweb.com)",
+      "WebFetch(domain:www.lookkle.com)"
     ]
   }
 }

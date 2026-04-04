@@ -13,7 +13,14 @@ const authRouter       = require('./routes/auth');
 const usersRouter      = require('./routes/users');
 const legalRouter      = require('./routes/legal');
 const clipsRouter      = require('./routes/clips');
-const tipsRouter       = require('./routes/tips');
+
+let tipsRouter;
+try {
+  tipsRouter = require('./routes/tips');
+  console.log('[STARTUP] tips router loaded OK');
+} catch (e) {
+  console.error('[STARTUP] FAILED to load tips router:', e.stack);
+}
 
 if (!process.env.JWT_SECRET) {
   console.error('FATAL: JWT_SECRET is not set in .env — authentication will not work.');
@@ -50,7 +57,12 @@ app.use('/api/complaints', complaintsRouter);
 app.use('/api/users',      usersRouter);
 app.use('/api/legal',      legalRouter);
 app.use('/api/clips',      clipsRouter);
-app.use('/api/tips',       tipsRouter);
+if (tipsRouter) {
+  app.use('/api/tips', tipsRouter);
+  console.log('[STARTUP] /api/tips mounted');
+} else {
+  console.error('[STARTUP] /api/tips NOT mounted — tips router failed to load');
+}
 
 // Health check — always responds, even when the database is unavailable.
 // Use GET /health on Render to confirm the process is alive and check DB state.

@@ -70,7 +70,13 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.status(status).json({ error: err.message || 'Server error.' });
 });
 
-// Fallback: serve index.html for any unmatched route (single-page friendliness)
+// API 404 guard — any /api/* route that falls through returns JSON, never HTML.
+// This prevents the client from receiving an HTML page and failing to JSON.parse it.
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: `API endpoint not found: ${req.method} ${req.originalUrl}` });
+});
+
+// Fallback: serve index.html for any unmatched non-API route (single-page app support)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });

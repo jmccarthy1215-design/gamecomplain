@@ -17,7 +17,9 @@
       "Bash(grep -E \"\\\\.\\(js|css\\)$\")",
       "WebSearch",
       "WebFetch(domain:www.similarweb.com)",
-      "WebFetch(domain:www.lookkle.com)"
+      "WebFetch(domain:www.lookkle.com)",
+      "Bash(node -e \"try { require\\(''./backend/routes/tips''\\); console.log\\(''tips.js loaded OK''\\); } catch\\(e\\) { console.error\\(''LOAD ERROR:'', e.message\\); }\")",
+      "Bash(node -e \":*)"
     ]
   }
 }
